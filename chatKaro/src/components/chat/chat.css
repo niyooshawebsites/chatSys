@@ -1,0 +1,23 @@
+.chat-container {
+  width: 100vw;
+  height: 100vh;
+  padding: 100 0;
+}
+
+.app-name {
+  height: 10vh;
+}
+
+.display-online-members {
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.display-msg-app {
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.prompt-container {
+  height: 12vh;
+}

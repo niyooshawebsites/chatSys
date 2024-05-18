@@ -37,7 +37,7 @@ const Signup = () => {
       </form>
       <div className="account-login d-flex align-items-center justify-content-between mt-3 text-white">
         <span className="d-inline-block mr-4">Have an account! &nbsp;</span>
-        <Link className="d-inline-block text-black" to="/login">
+        <Link className="d-inline-block text-success" to="/login">
           Login
         </Link>
       </div>

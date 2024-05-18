@@ -24,13 +24,13 @@ const Login = () => {
         </div>
         <input
           type="submit"
-          value="Signup"
+          value="Login"
           className="btn btn-primary login-btn"
         />
       </form>
       <div className="account-login d-flex align-items-center justify-content-between mt-3 text-white">
         <span className="d-inline-block mr-4">Have an account! &nbsp;</span>
-        <Link className="d-inline-block text-black" to="/">
+        <Link className="d-inline-block text-success" to="/">
           Signup
         </Link>
       </div>

@@ -10,11 +10,12 @@
 .signup-form {
   width: 300px;
   padding: 25px;
-  background-color: rgba(91, 158, 221, 0.74);
+  background-color: rgb(58, 67, 190);
   border-radius: 10px;
 }
 
 .singup-btn {
   display: block;
   width: 100%;
+  background-color: crimson;
 }
