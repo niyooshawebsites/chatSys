@@ -6,6 +6,7 @@
 
 .app-name {
   height: 10vh;
+  background-color: crimson;
 }
 
 .display-online-members {

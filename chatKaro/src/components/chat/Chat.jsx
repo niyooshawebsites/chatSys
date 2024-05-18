@@ -6,7 +6,7 @@ const Chat = () => {
       <div className="chat-container">
         <div className="container pt-2">
           {/* App name */}
-          <div className="app-name bg-danger mb-4">
+          <div className="app-name mb-4">
             <div className="row">
               <div className="col">
                 <h1 className="display-6 text-center text-light">Chat Karo</h1>
@@ -18,8 +18,13 @@ const Chat = () => {
           <div className="row border p-3">
             {/* show online members */}
 
-            <div className="col-md-3 p-3  display-online-members">
-              <h2 className="text-light text-center bg-danger">Online</h2>
+            <div className="col-md-3 p-3 display-online-members">
+              <h2
+                className="text-light text-center"
+                style={{ backgroundColor: "crimson" }}
+              >
+                Online
+              </h2>
               <ol className="list-group list-group-numbered">
                 <li className="list-group-item">Brad</li>
                 <li className="list-group-item">James</li>
