@@ -7,7 +7,7 @@ const connection = () => {
       ? console.log(`Connection Established`)
       : console.log(`Connection failed`);
   } catch (error) {
-    console.log(`Connection error -${error}`);
+    console.log(`Connection error : ${error}`);
   }
 };
 
