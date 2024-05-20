@@ -1,31 +1,43 @@
 import "./chat.css";
+import { useSelector } from "react-redux";
 
 const Chat = () => {
+  const { username } = useSelector((state) => state.user_slice);
+  console.log(username);
   return (
     <>
       <div className="chat-container">
         <div className="container pt-2">
           {/* App name */}
-          <div className="app-name mb-4">
+          <div className="app-name rounded mb-4">
             <div className="row">
               <div className="col">
-                <h1 className="display-6 text-center text-light">Chat Karo</h1>
+                <h1 className="display-6 text-center text-light">{`Welcome to Chat Karo`}</h1>
               </div>
             </div>
           </div>
 
           {/* complete message display section */}
-          <div className="row border p-3">
+          <div className="row border rounded p-3">
             {/* show online members */}
 
             <div className="col-md-3 p-3 display-online-members">
-              <h2
-                className="text-light text-center"
-                style={{ backgroundColor: "crimson" }}
+              <h3 className="text-light text-center">{`Hi, ${username}!`}</h3>
+
+              <button
+                className="btn btn-outline-danger mb-3"
+                style={{ width: "100%" }}
+              >
+                Logout
+              </button>
+
+              <h4
+                className="text-light text-center rounded py-2"
+                style={{ backgroundColor: "limegreen" }}
               >
                 Online
-              </h2>
-              <ol className="list-group list-group-numbered">
+              </h4>
+              <ol className="list-group list-group-numbered ">
                 <li className="list-group-item">Brad</li>
                 <li className="list-group-item">James</li>
                 <li className="list-group-item">Kiper</li>
@@ -52,7 +64,7 @@ const Chat = () => {
             {/* Messages section */}
 
             <div className="col-md-9 display-msg-app">
-              <div className="alert alert-primary d-flex flex-column">
+              <div className="alert alert-success d-flex flex-column">
                 <div className="details">
                   <span className="lead font-bold">Captain</span> :{" "}
                   <span>11.25 AM</span>
@@ -65,7 +77,7 @@ const Chat = () => {
                 </div>
               </div>
 
-              <div className="alert alert-primary d-flex flex-column">
+              <div className="alert alert-danger d-flex flex-column">
                 <div className="details">
                   <span className="lead">Captain</span> : <span>11.25 AM</span>
                 </div>
