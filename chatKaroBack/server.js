@@ -19,9 +19,8 @@ const app = express();
 // cors middleware
 app.use(cors());
 
-// setting up the static folder
-console.log(path.join(__dirname, "chatkaro", "index.html"));
-app.use(express.static(path.join(__dirname, "public")));
+// get json from body
+app.use(express.json());
 
 // creating server for socket.io
 const server = http.createServer(app);
