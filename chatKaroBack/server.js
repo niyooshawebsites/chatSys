@@ -4,6 +4,7 @@ const path = require("path");
 const socketio = require("socket.io");
 const cors = require("cors");
 const connection = require("./db/connection");
+const singupRoute = require("./routes/signupRoute");
 
 // dotenv configuration......
 const dotenv = require("dotenv");
@@ -21,6 +22,10 @@ app.use(cors());
 
 // get json from body
 app.use(express.json());
+
+// ROUTES
+// signup route
+app, use(process.env.BASE_URL, singupRoute);
 
 // creating server for socket.io
 const server = http.createServer(app);
