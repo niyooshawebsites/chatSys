@@ -17,14 +17,14 @@ connection();
 // express server.......
 const app = express();
 
-// cors middleware
+// cors middleware.....
 app.use(cors());
 
-// get json from body
+// get json from body........
 app.use(express.json());
 
 // ROUTES
-// signup route
+// signup route.......
 app, use(process.env.BASE_URL, singupRoute);
 
 // creating server for socket.io
