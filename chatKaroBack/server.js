@@ -5,6 +5,7 @@ const socketio = require("socket.io");
 const cors = require("cors");
 const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
+const loginRoute = require("./routes/loginRoute");
 
 // dotenv configuration......
 const dotenv = require("dotenv");
@@ -26,6 +27,9 @@ app.use(express.json());
 // ROUTES
 // signup route.......
 app.use(process.env.BASE_URL, singupRoute);
+
+// login route........
+app.use(process.env.BASE_URL, loginRoute);
 
 // creating server for socket.io
 const server = http.createServer(app);
