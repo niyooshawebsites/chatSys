@@ -25,7 +25,7 @@ app.use(express.json());
 
 // ROUTES
 // signup route.......
-app, use(process.env.BASE_URL, singupRoute);
+app.use(process.env.BASE_URL, singupRoute);
 
 // creating server for socket.io
 const server = http.createServer(app);

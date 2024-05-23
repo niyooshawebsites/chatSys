@@ -2,6 +2,7 @@ const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 
 const signupController = async (req, res) => {
+  // getting details from the body
   const { username, userEmail, userPassword } = req.body;
 
   //   if the details are not filled
