@@ -1,5 +1,6 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const loginController = async (req, res) => {
   // getting details from the body
@@ -31,9 +32,13 @@ const loginController = async (req, res) => {
           message: "Username or Password is incorrect",
         });
       } else {
+        const token = jwt.sign(existingUser, process.env.JWT_SECRET, {
+          expiresIn: "1h",
+        });
         return res.status(200).json({
           success: true,
           message: "Login successful",
+          token,
         });
       }
     }
