@@ -5,15 +5,11 @@ const userSlice = createSlice({
   initialState: {
     username: "",
     userEmail: "",
-    userPassword: "",
   },
   reducers: {
     signup: (state, action) => {
-      console.log("Signup successful");
-      console.log(action.payload);
       state.username = action.payload.username;
       state.userEmail = action.payload.userEmail;
-      state.userPassword = action.payload.userPassword;
     },
 
     login: (state) => {

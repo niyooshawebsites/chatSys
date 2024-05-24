@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { useRef } from "react";
 import { userSliceActions } from "../../store/slices/UserSlice";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -12,10 +11,6 @@ const Signup = () => {
   const usernameRef = useRef();
   const userEmailRef = useRef();
   const userPaswordRef = useRef();
-
-  const { username, userEmail, userPassword } = useSelector(
-    (state) => state.user_slice
-  );
 
   const navigate = useNavigate();
 
@@ -26,7 +21,6 @@ const Signup = () => {
       userSliceActions.signup({
         username: usernameRef.current.value,
         userEmail: userEmailRef.current.value,
-        userPassword: userPaswordRef.current.value,
       })
     );
 

@@ -32,7 +32,7 @@ const loginController = async (req, res) => {
           message: "Username or Password is incorrect",
         });
       } else {
-        const token = jwt.sign(existingUser, process.env.JWT_SECRET, {
+        const token = jwt.sign({ existingUser }, process.env.JWT_SECRET, {
           expiresIn: "1h",
         });
         return res.status(200).json({
