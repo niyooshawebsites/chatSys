@@ -13,6 +13,7 @@ const loginController = async (req, res) => {
     });
   } else {
     const existingUser = await userModel.findOne({ username });
+
     if (!existingUser) {
       return res.status(404).json({
         success: false,
@@ -23,7 +24,8 @@ const loginController = async (req, res) => {
         userPassword,
         existingUser.userPassword
       );
-      if (userPassword != unhashedPassword) {
+
+      if (!unhashedPassword) {
         return res.status(404).json({
           success: false,
           message: "Username or Password is incorrect",

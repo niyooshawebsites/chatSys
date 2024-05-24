@@ -23,9 +23,7 @@ app.use(cors());
 
 // get json from body........
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-console.log(process.env.BASE_URL);
+// app.use(express.urlencoded({ extended: true }));
 
 // ROUTES
 // signup route.......

@@ -14,9 +14,12 @@ const signupController = async (req, res) => {
       });
     } else {
       // if the details are filled
+
       // check if the user already exists........
-      const existingUser = await userModel.findOne({ userEmail });
-      if (existingUser) {
+      const existingUserByEmail = await userModel.findOne({ userEmail });
+      const existingUserByUsername = await userModel.findOne({ username });
+
+      if (existingUserByEmail || existingUserByUsername) {
         return res.status(400).json({
           success: false,
           msg: "User already exists. Please login in",
@@ -27,6 +30,7 @@ const signupController = async (req, res) => {
         // hashing the password
         const salt = 10;
         const hashedPassword = await bcrypt.hash(userPassword, salt);
+
         const newUser = new userModel({
           username,
           userEmail,
@@ -42,7 +46,7 @@ const signupController = async (req, res) => {
       }
     }
   } catch (err) {
-    console.log(err);
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
