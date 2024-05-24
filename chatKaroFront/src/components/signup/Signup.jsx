@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useRef } from "react";
 import { userSliceActions } from "../../store/slices/UserSlice";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -11,8 +13,13 @@ const Signup = () => {
   const userEmailRef = useRef();
   const userPaswordRef = useRef();
 
-  const onSignupSubmit = (e) => {
+  const { username, userEmail, userPassword } = useSelector(
+    (state) => state.user_slice
+  );
+
+  const onSignupSubmit = async (e) => {
     e.preventDefault();
+
     dispatch(
       userSliceActions.signup({
         username: usernameRef.current.value,
@@ -20,6 +27,16 @@ const Signup = () => {
         userPassword: userPaswordRef.current.value,
       })
     );
+
+    try {
+      await axios.post("http://localhost:5500/api/v1/signup", {
+        username: usernameRef.current.value,
+        userEmail: userEmailRef.current.value,
+        userPassword: userPaswordRef.current.value,
+      });
+    } catch (err) {
+      console.log(err);
+    }
 
     usernameRef.current.value = "";
     userEmailRef.current.value = "";
