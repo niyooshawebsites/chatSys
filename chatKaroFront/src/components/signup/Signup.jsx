@@ -1,5 +1,5 @@
 import "./signup.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useRef } from "react";
 import { userSliceActions } from "../../store/slices/UserSlice";
@@ -16,6 +16,8 @@ const Signup = () => {
   const { username, userEmail, userPassword } = useSelector(
     (state) => state.user_slice
   );
+
+  const navigate = useNavigate();
 
   const onSignupSubmit = async (e) => {
     e.preventDefault();
@@ -41,6 +43,8 @@ const Signup = () => {
     usernameRef.current.value = "";
     userEmailRef.current.value = "";
     userPaswordRef.current.value = "";
+
+    navigate("/login");
   };
 
   return (

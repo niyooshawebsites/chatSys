@@ -1,25 +1,47 @@
 import "./login.css";
-
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useRef } from "react";
 
 const Login = () => {
+  const usernameRef = useRef();
+  const userPasswordRef = useRef();
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios
+        .post("http://localhost:5500/api/v1/login", {
+          username: usernameRef.current.value,
+          userPassword: userPasswordRef.current.value,
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="form-container">
       <h1 className="text-light display-4 mb-3">Chat Karo!</h1>
-      <form action="" className="login-form">
+      <form action="" className="login-form" onSubmit={handleFormSubmit}>
         <div className="form-group mb-3">
           <input
             type="text"
             className="form-control"
             placeholder="Username"
+            ref={usernameRef}
             required
           />
         </div>
         <div className="form-group mb-3">
           <input
-            type="text"
+            type="password"
             className="form-control"
-            placeholder="*********************"
+            placeholder="***********"
+            ref={userPasswordRef}
+            required
           />
         </div>
         <input
