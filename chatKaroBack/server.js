@@ -40,7 +40,18 @@ const io = socketio(server);
 
 // client connection - start
 io.on("connection", (socket) => {
-  console.log("New connection established!");
+  console.log("A new user connected");
+
+  // listen to the messages coming from the client
+  socket.on("recClientMsg", (msg) => {
+    // broadcast the same msg to call the clients
+    io.emit("broadcastedMsg", msg);
+  });
+
+  // disconnection
+  socket.on("discoonect", () => {
+    console.log("User disconnected");
+  });
 });
 
 server.listen(PORT, () => {
