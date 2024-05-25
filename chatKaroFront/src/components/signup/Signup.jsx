@@ -38,7 +38,7 @@ const Signup = () => {
     userEmailRef.current.value = "";
     userPaswordRef.current.value = "";
 
-    navigate("/login");
+    navigate("/");
   };
 
   return (
