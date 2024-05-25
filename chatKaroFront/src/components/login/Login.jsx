@@ -16,7 +16,7 @@ const Login = () => {
           username: usernameRef.current.value,
           userPassword: userPasswordRef.current.value,
         })
-        .then((data) => sessionStorage.setItem("authToken", data.token))
+        .then((data) => sessionStorage.setItem("authToken", data.data.token))
         .catch((err) => console.log(err));
 
       // setting the jwt token received from logincontroller in sessionStorage
