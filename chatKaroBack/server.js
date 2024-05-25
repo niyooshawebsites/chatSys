@@ -1,7 +1,7 @@
 const express = require("express");
-// const http = require("http");
-// const path = require("path");
-// const socketio = require("socket.io");
+const http = require("http");
+const path = require("path");
+const socketio = require("socket.io");
 const cors = require("cors");
 const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
@@ -32,17 +32,17 @@ app.use(process.env.BASE_URL, singupRoute);
 // login route........
 app.use(process.env.BASE_URL, loginRoute);
 
-// // creating server for socket.io
-// const server = http.createServer(app);
+// creating server for socket.io
+const server = http.createServer(app);
 
-// // set up socket io
-// const io = socketio(server);
+// set up socket io
+const io = socketio(server);
 
-// // client connection - start
-// io.on("connection", (socket) => {
-//   console.log("New connection established!");
-// });
+// client connection - start
+io.on("connection", (socket) => {
+  console.log("New connection established!");
+});
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Connected to port ${PORT}, link: http://localhost:${PORT}`);
 });
