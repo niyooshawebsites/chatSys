@@ -8,15 +8,14 @@ import centralStore from "./store/CentralStore";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 
 function App() {
-  const authToken = sessionStorage.getItem("authToken");
   return (
     <>
       <Provider store={centralStore}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route element={<ProtectedRoute authToken={authToken} />}>
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route element={<ProtectedRoute />}>
               <Route path="/chat" element={<Chat />} />
             </Route>
           </Routes>

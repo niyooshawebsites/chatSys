@@ -1,7 +1,8 @@
 import { Outlet, Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ authToken }) => {
-  return authToken ? <Outlet /> : <Navigate to="/login" />;
+const ProtectedRoute = () => {
+  const authToken = sessionStorage.getItem("authToken");
+  return authToken ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default ProtectedRoute;

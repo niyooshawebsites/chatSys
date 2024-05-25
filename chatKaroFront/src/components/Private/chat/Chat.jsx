@@ -1,9 +1,22 @@
 import "./chat.css";
 import { useSelector } from "react-redux";
+import io from "socket.io-client";
+import { useNavigate } from "react-router-dom";
 
 const Chat = () => {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    sessionStorage.removeItem("authToken");
+    navigate("/");
+  };
+
+  const socket = io(`http://localhost:5173/chat`);
+
   const { username } = useSelector((state) => state.user_slice);
+
   console.log(username);
+
   return (
     <>
       <div className="chat-container">
@@ -27,6 +40,7 @@ const Chat = () => {
               <button
                 className="btn btn-outline-danger mb-3"
                 style={{ width: "100%" }}
+                onClick={logout}
               >
                 Logout
               </button>
