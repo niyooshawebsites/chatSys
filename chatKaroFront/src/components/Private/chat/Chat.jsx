@@ -35,10 +35,10 @@ const Chat = () => {
 
     console.log(messages);
 
-    // // cleanup event listener
-    // return () => {
-    //   socket.off("broadcastedMsg");
-    // };
+    // cleanup event listener
+    return () => {
+      socket.off("broadcastedMsg");
+    };
   }, [socket]);
 
   return (
