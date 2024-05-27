@@ -36,21 +36,27 @@ app.use(process.env.BASE_URL, loginRoute);
 const server = http.createServer(app);
 
 // set up socket io
-const io = socketio(server);
+const io = socketio(server, {
+  cors: {
+    origin: "http://localhost:5173",
+  },
+});
 
 // client connection - start
 io.on("connection", (socket) => {
-  console.log("A new user connected");
+  socket.broadcast.emit("A new user connected");
 
-  // listen to the messages coming from the client
-  socket.on("recClientMsg", (msg) => {
-    // broadcast the same msg to call the clients
-    io.emit("broadcastedMsg", msg);
+  // sending a welcome message to the client
+  socket.broadcast.emit("msgFromServer", "Welcome to Chat Karo");
+
+  // receing the message from the client
+  socket.on("clientMsg", (clientMsg) => {
+    socket.emit("msgFromServer", clientMsg);
   });
 
   // disconnection
   socket.on("discoonect", () => {
-    console.log("User disconnected");
+    socket.broadcast.emit("User disconnected");
   });
 });
 

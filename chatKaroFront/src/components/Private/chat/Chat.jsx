@@ -1,10 +1,11 @@
 import "./chat.css";
-import io from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import { socket } from "../../../socket";
 
 const Chat = () => {
-  const socket = io(`http://localhost:5173/chat`);
+  // connect the socket
+  socket.connect();
 
   const navigate = useNavigate();
   const msgRef = useRef();
@@ -13,8 +14,7 @@ const Chat = () => {
   const msgSendHandle = async (e) => {
     e.preventDefault();
 
-    // sending message to the server
-    socket.on("recClientMsg", msgRef.current.value.trim());
+    socket.emit("clientMsg", msgRef.current.value.trim());
 
     // emptying the input filed
     msgRef.current.value = "";
@@ -26,20 +26,21 @@ const Chat = () => {
   };
 
   // handle incoming messages from the server
+
   useEffect(() => {
-    // listen for client messages from the server
-    socket.on("broadcastedMsg", (message) => {
+    // listen for client messages coming from the server
+    socket.on("msgFromServer", (msg) => {
       // add the received/broadcasted message to the messages state
-      setMessages((prevMessages) => [...prevMessages, message]);
+      setMessages((prevMessages) => [...prevMessages, msg]);
     });
 
     console.log(messages);
 
     // cleanup event listener
     return () => {
-      socket.off("broadcastedMsg");
+      socket.off("msgFromServer");
     };
-  }, [socket]);
+  }, [messages]);
 
   return (
     <>
@@ -102,66 +103,20 @@ const Chat = () => {
             {/* Messages section */}
 
             <div className="col-md-9 display-msg-app">
-              <div className="alert alert-success d-flex flex-column">
-                <div className="details">
-                  <span className="lead font-bold">Captain</span> :{" "}
-                  <span>11.25 AM</span>
-                </div>
-                <div className="message">
-                  <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Quaerat veritatis consequuntur obcaecati a?
-                  </p>
-                </div>
-              </div>
-
-              <div className="alert alert-danger d-flex flex-column">
-                <div className="details">
-                  <span className="lead">Captain</span> : <span>11.25 AM</span>
-                </div>
-                <div className="message">
-                  <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Quaerat veritatis consequuntur obcaecati a?
-                  </p>
-                </div>
-              </div>
-
-              <div className="alert alert-primary d-flex flex-column">
-                <div className="details">
-                  <span className="lead">Captain</span> : <span>11.25 AM</span>
-                </div>
-                <div className="message">
-                  <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Quaerat veritatis consequuntur obcaecati a?
-                  </p>
-                </div>
-              </div>
-
-              <div className="alert alert-primary d-flex flex-column">
-                <div className="details">
-                  <span className="lead">Captain</span> : <span>11.25 AM</span>
-                </div>
-                <div className="message">
-                  <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Quaerat veritatis consequuntur obcaecati a?
-                  </p>
-                </div>
-              </div>
-
-              <div className="alert alert-primary d-flex flex-column">
-                <div className="details">
-                  <span className="lead">Captain</span> : <span>11.25 AM</span>
-                </div>
-                <div className="message">
-                  <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Quaerat veritatis consequuntur obcaecati a?
-                  </p>
-                </div>
-              </div>
+              {messages.map((msg, index) => {
+                return (
+                  <div
+                    className="alert alert-success d-flex flex-column"
+                    key={index}
+                  >
+                    <div className="details">
+                      <span className="lead font-bold">Captain</span> :{" "}
+                      <span>11.25 AM</span>
+                    </div>
+                    <div className="message">{msg}</div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
