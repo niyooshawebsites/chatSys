@@ -44,19 +44,19 @@ const io = socketio(server, {
 
 // client connection - start
 io.on("connection", (socket) => {
-  socket.broadcast.emit("A new user connected");
+  socket.broadcast.emit("msgFromServer", "A new user connected");
 
   // sending a welcome message to the client
-  socket.broadcast.emit("msgFromServer", "Welcome to Chat Karo");
+  socket.emit("msgFromServer", "Welcome to Chat Karo");
 
   // receing the message from the client
   socket.on("clientMsg", (clientMsg) => {
-    socket.emit("msgFromServer", clientMsg);
+    io.emit("msgFromServer", clientMsg);
   });
 
   // disconnection
   socket.on("discoonect", () => {
-    socket.broadcast.emit("User disconnected");
+    io.emit("msgFromServer", "user left the chat");
   });
 });
 

@@ -81,22 +81,6 @@ const Chat = () => {
                 <li className="list-group-item">James</li>
                 <li className="list-group-item">Kiper</li>
                 <li className="list-group-item">Jeff</li>
-                <li className="list-group-item">Brad</li>
-                <li className="list-group-item">James</li>
-                <li className="list-group-item">Kiper</li>
-                <li className="list-group-item">Jeff</li>
-                <li className="list-group-item">Brad</li>
-                <li className="list-group-item">James</li>
-                <li className="list-group-item">Kiper</li>
-                <li className="list-group-item">Jeff</li>
-                <li className="list-group-item">Brad</li>
-                <li className="list-group-item">James</li>
-                <li className="list-group-item">Kiper</li>
-                <li className="list-group-item">Jeff</li>
-                <li className="list-group-item">Brad</li>
-                <li className="list-group-item">James</li>
-                <li className="list-group-item">Kiper</li>
-                <li className="list-group-item">Jeff</li>
               </ol>
             </div>
 
@@ -110,7 +94,7 @@ const Chat = () => {
                     key={index}
                   >
                     <div className="details">
-                      <span className="lead font-bold">Captain</span> :{" "}
+                      <span className="lead font-bold">Chat Karo</span> :{" "}
                       <span>11.25 AM</span>
                     </div>
                     <div className="message">{msg}</div>
