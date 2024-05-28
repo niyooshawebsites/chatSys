@@ -6,6 +6,7 @@ const cors = require("cors");
 const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
 const loginRoute = require("./routes/loginRoute");
+const msgDetails = require("./utils/msgDetails");
 
 // dotenv configuration......
 const dotenv = require("dotenv");
@@ -44,19 +45,20 @@ const io = socketio(server, {
 
 // client connection - start
 io.on("connection", (socket) => {
-  socket.broadcast.emit("msgFromServer", "A new user connected");
+  // when a different user connects
+  socket.broadcast.emit("msgFromServer", msgDetails("A new user connected"));
 
   // sending a welcome message to the client
-  socket.emit("msgFromServer", "Welcome to Chat Karo");
+  socket.emit("msgFromServer", msgDetails("Welcome to Chat Karo"));
 
   // receing the message from the client
   socket.on("clientMsg", (clientMsg) => {
-    io.emit("msgFromServer", clientMsg);
+    io.emit("msgFromServer", msgDetails(clientMsg));
   });
 
   // disconnection
   socket.on("disconnect", () => {
-    io.boardcast.emit("msgFromServer", "user left the chat");
+    io.broadcast.emit("msgFromServer", msgDetails("Has left the chat"));
   });
 });
 

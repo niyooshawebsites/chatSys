@@ -11,14 +11,6 @@ const userSlice = createSlice({
       state.username = action.payload.username;
       state.userEmail = action.payload.userEmail;
     },
-
-    login: (state) => {
-      console.log("Login successful");
-    },
-
-    logout: (state) => {
-      console.log("Logout successful");
-    },
   },
 });
 

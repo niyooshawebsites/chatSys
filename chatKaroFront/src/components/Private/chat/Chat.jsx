@@ -2,10 +2,17 @@ import "./chat.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { socket } from "../../../socket";
+import { useSelector } from "react-redux";
 
 const Chat = () => {
   // connect the socket
   socket.connect();
+
+  const { username } = useSelector((state) => state.user_slice);
+  console.log(username);
+
+  // setting the username in sessionStorage
+  sessionStorage.setItem("chatKaro_username", username);
 
   const navigate = useNavigate();
   const msgRef = useRef();
@@ -14,7 +21,10 @@ const Chat = () => {
   const msgSendHandle = async (e) => {
     e.preventDefault();
 
-    socket.emit("clientMsg", msgRef.current.value.trim());
+    socket.emit("clientMsg", {
+      sender: sessionStorage.getItem("chatKaro_username"),
+      msg: msgRef.current.value.trim(),
+    });
 
     // emptying the input filed
     msgRef.current.value = "";
@@ -50,7 +60,7 @@ const Chat = () => {
           <div className="app-name rounded mb-4">
             <div className="row">
               <div className="col">
-                <h1 className="display-6 text-center text-light">{`Welcome to Chat Karo`}</h1>
+                <h1 className="display-6 text-center text-light">{`Chat Karo`}</h1>
               </div>
             </div>
           </div>
@@ -94,10 +104,10 @@ const Chat = () => {
                     key={index}
                   >
                     <div className="details">
-                      <span className="lead font-bold">Chat Karo</span> :{" "}
-                      <span>11.25 AM</span>
+                      <span className="lead font-bold">{msg.msg.sender}</span>:{" "}
+                      <span>{msg.time}</span>
                     </div>
-                    <div className="message">{msg}</div>
+                    <div className="message">{msg.msg.msg}</div>
                   </div>
                 );
               })}
