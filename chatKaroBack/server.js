@@ -55,8 +55,8 @@ io.on("connection", (socket) => {
   });
 
   // disconnection
-  socket.on("discoonect", () => {
-    io.emit("msgFromServer", "user left the chat");
+  socket.on("disconnect", () => {
+    io.boardcast.emit("msgFromServer", "user left the chat");
   });
 });
 
