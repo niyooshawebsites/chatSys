@@ -1,6 +1,5 @@
 const express = require("express");
 const http = require("http");
-const path = require("path");
 const socketio = require("socket.io");
 const cors = require("cors");
 const connection = require("./db/connection");
@@ -46,19 +45,22 @@ const io = socketio(server, {
 // client connection - start
 io.on("connection", (socket) => {
   // when a different user connects
-  socket.broadcast.emit("msgFromServer", msgDetails("A new user connected"));
+  socket.broadcast.emit(
+    "msgFromServer",
+    msgDetails("Chat Karo", "A new user connected")
+  );
 
   // sending a welcome message to the client
-  socket.emit("msgFromServer", msgDetails("Welcome to Chat Karo"));
+  socket.emit("msgFromServer", msgDetails("Chat Karo", "Welcome to Chat Karo"));
 
   // receing the message from the client
   socket.on("clientMsg", (clientMsg) => {
-    io.emit("msgFromServer", msgDetails(clientMsg));
+    io.emit("msgFromServer", msgDetails("User", clientMsg));
   });
 
   // disconnection
   socket.on("disconnect", () => {
-    io.broadcast.emit("msgFromServer", msgDetails("Has left the chat"));
+    io.emit("msgFromServer", msgDetails("User", "Has left the chat"));
   });
 });
 

@@ -2,17 +2,10 @@ import "./chat.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { socket } from "../../../socket";
-import { useSelector } from "react-redux";
 
 const Chat = () => {
   // connect the socket
   socket.connect();
-
-  const { username } = useSelector((state) => state.user_slice);
-  console.log(username);
-
-  // setting the username in sessionStorage
-  sessionStorage.setItem("chatKaro_username", username);
 
   const navigate = useNavigate();
   const msgRef = useRef();
@@ -21,10 +14,7 @@ const Chat = () => {
   const msgSendHandle = async (e) => {
     e.preventDefault();
 
-    socket.emit("clientMsg", {
-      sender: sessionStorage.getItem("chatKaro_username"),
-      msg: msgRef.current.value.trim(),
-    });
+    socket.emit("clientMsg", msgRef.current.value.trim());
 
     // emptying the input filed
     msgRef.current.value = "";
@@ -104,10 +94,10 @@ const Chat = () => {
                     key={index}
                   >
                     <div className="details">
-                      <span className="lead font-bold">{msg.msg.sender}</span>:{" "}
+                      <span className="lead font-bold">Chat Karo</span>:{" "}
                       <span>{msg.time}</span>
                     </div>
-                    <div className="message">{msg.msg.msg}</div>
+                    <div className="message">{msg.msg}</div>
                   </div>
                 );
               })}

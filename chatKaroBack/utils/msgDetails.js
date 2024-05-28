@@ -1,7 +1,8 @@
 const moment = require("moment");
 
-const msgDetails = (msg) => {
+const msgDetails = (user, msg) => {
   return {
+    user,
     msg,
     time: moment().format("h:mm a"),
   };
