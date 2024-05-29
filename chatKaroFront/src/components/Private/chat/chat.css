@@ -11,11 +11,21 @@
 
 .display-online-members {
   height: 70vh;
+  border-right: 1px solid grey;
+}
+
+.online {
+  max-height: 40vh;
   overflow-y: scroll;
 }
 
 .display-msg-app {
   height: 70vh;
+}
+
+.actual-mgs {
+  height: 60vh;
+  padding-right: 15px;
   overflow-y: scroll;
 }
 

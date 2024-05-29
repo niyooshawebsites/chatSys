@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { socket } from "../../../socket";
 import { useSelector } from "react-redux";
+import { RiSendPlane2Fill } from "react-icons/ri";
 
 const Chat = () => {
   // connect the socket
@@ -53,14 +54,11 @@ const Chat = () => {
           {/* App name */}
 
           <div className="px-5 d-flex justify-content-between align-items-center inner-header border app-name rounded mb-4">
-            <div>
-              <h1 className="display-6 text-center text-light">{`Chat Karo`}</h1>
-            </div>
-            <div className="d-flex justify-content-between align-items-center border">
-              <button className="btn btn-outline-dark mb-3" onClick={logout}>
-                Logout
-              </button>
-            </div>
+            <h1 className="display-6 text-center text-light">{`Chat Karo`}</h1>
+
+            <button className="btn btn-danger" onClick={logout}>
+              Logout
+            </button>
           </div>
 
           {/* complete message display section */}
@@ -74,9 +72,13 @@ const Chat = () => {
                 className="text-light text-center rounded py-2"
                 style={{ backgroundColor: "limegreen" }}
               >
-                Online
+                Online chatters
               </h4>
-              <ol className="list-group list-group-numbered ">
+              <ol className="list-group list-group-numbered online border">
+                <li className="list-group-item">Brad</li>
+                <li className="list-group-item">James</li>
+                <li className="list-group-item">Kiper</li>
+                <li className="list-group-item">Jeff</li>
                 <li className="list-group-item">Brad</li>
                 <li className="list-group-item">James</li>
                 <li className="list-group-item">Kiper</li>
@@ -86,28 +88,29 @@ const Chat = () => {
 
             {/* Messages section */}
 
-            <div className="col-md-9 display-msg-app">
-              {messages.map((msg, index) => {
-                return (
-                  <div
-                    className="alert alert-danger d-flex flex-column"
-                    key={index}
-                  >
-                    <div className="details">
-                      {console.log(msg)}
-                      <span className="lead font-bold">{msg.user}</span>:{" "}
-                      <span>{msg.time}</span>
+            <div className="col-md-9 display-msg-app d-flex flex-column justify-content-between">
+              <div className="actual-mgs">
+                {messages.map((msg, index) => {
+                  return (
+                    <div
+                      className="alert alert-danger d-flex flex-column justify-self-start"
+                      key={index}
+                    >
+                      <div className="details">
+                        {console.log(msg)}
+                        <span className="lead font-bold">{msg.user}</span>:{" "}
+                        <span>{msg.time}</span>
+                      </div>
+                      <div className="message">{msg.msg}</div>
                     </div>
-                    <div className="message">{msg.msg}</div>
-                  </div>
-                );
-              })}
-
+                  );
+                })}
+              </div>
               {/* Input message */}
               <div className="row container mx-auto py-4 prompt-container">
                 <form action="">
                   <div className="row">
-                    <div className="col-md-11">
+                    <div className="col-md-10">
                       <input
                         type="text"
                         className="form-control"
@@ -116,13 +119,13 @@ const Chat = () => {
                         ref={msgRef}
                       />
                     </div>
-                    <div className="col-md-1">
+                    <div className="col-md-2">
                       <button
                         type="submit"
-                        className="btn btn-primary"
+                        className="btn btn-success"
                         onClick={msgSendHandle}
                       >
-                        Send
+                        Send <RiSendPlane2Fill />
                       </button>
                     </div>
                   </div>
