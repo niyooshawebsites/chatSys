@@ -11,7 +11,7 @@ const joinLoggedinUser = (id, username) => {
 
 const getCurrentUser = (id) => {
   const currentUser = allLoggedinUsers.find((user) => user.id === id);
-  return currentUser.username;
+  return currentUser?.username;
 };
 
 module.exports = { joinLoggedinUser, getCurrentUser };

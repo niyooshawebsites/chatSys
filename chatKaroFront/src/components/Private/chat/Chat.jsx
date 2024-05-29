@@ -51,28 +51,24 @@ const Chat = () => {
       <div className="chat-container">
         <div className="container pt-2">
           {/* App name */}
-          <div className="app-name rounded mb-4">
-            <div className="row">
-              <div className="col">
-                <h1 className="display-6 text-center text-light">{`Chat Karo`}</h1>
-              </div>
+
+          <div className="px-5 d-flex justify-content-between align-items-center inner-header border app-name rounded mb-4">
+            <div>
+              <h1 className="display-6 text-center text-light">{`Chat Karo`}</h1>
+            </div>
+            <div className="d-flex justify-content-between align-items-center border">
+              <button className="btn btn-outline-dark mb-3" onClick={logout}>
+                Logout
+              </button>
             </div>
           </div>
 
           {/* complete message display section */}
           <div className="row border rounded p-3">
             {/* show online members */}
-
             <div className="col-md-3 p-3 display-online-members">
+              {/* Show the name of the current logged in user */}
               <h3 className="text-light text-center">{`Hi, ${loggedinUsername}`}</h3>
-
-              <button
-                className="btn btn-outline-danger mb-3"
-                style={{ width: "100%" }}
-                onClick={logout}
-              >
-                Logout
-              </button>
 
               <h4
                 className="text-light text-center rounded py-2"
@@ -94,7 +90,7 @@ const Chat = () => {
               {messages.map((msg, index) => {
                 return (
                   <div
-                    className="alert alert-success d-flex flex-column"
+                    className="alert alert-danger d-flex flex-column"
                     key={index}
                   >
                     <div className="details">
@@ -106,33 +102,33 @@ const Chat = () => {
                   </div>
                 );
               })}
-            </div>
-          </div>
 
-          {/* Input message */}
-          <div className="row container mx-auto py-4 fixed-bottom prompt-container">
-            <form action="">
-              <div className="row">
-                <div className="col-md-11">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inlineFormInput"
-                    placeholder="Type here...."
-                    ref={msgRef}
-                  />
-                </div>
-                <div className="col-md-1">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    onClick={msgSendHandle}
-                  >
-                    Send
-                  </button>
-                </div>
+              {/* Input message */}
+              <div className="row container mx-auto py-4 prompt-container">
+                <form action="">
+                  <div className="row">
+                    <div className="col-md-11">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inlineFormInput"
+                        placeholder="Type here...."
+                        ref={msgRef}
+                      />
+                    </div>
+                    <div className="col-md-1">
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                        onClick={msgSendHandle}
+                      >
+                        Send
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
