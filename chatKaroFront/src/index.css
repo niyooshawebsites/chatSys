@@ -7,3 +7,7 @@
 body {
   background-color: rgb(54, 52, 53);
 }
+
+/* ::-webkit-scrollbar {
+  width: 10px;
+} */

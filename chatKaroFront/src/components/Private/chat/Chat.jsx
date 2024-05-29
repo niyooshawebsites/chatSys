@@ -19,10 +19,15 @@ const Chat = () => {
   const msgSendHandle = async (e) => {
     e.preventDefault();
 
-    socket.emit("clientMsg", msgRef.current.value.trim());
+    const takeAction = () => {
+      socket.emit("clientMsg", msgRef.current.value.trim());
+      // emptying the input filed
+      msgRef.current.value = "";
+    };
 
-    // emptying the input filed
-    msgRef.current.value = "";
+    msgRef.current.value.trim()
+      ? alert("Please type something....")
+      : takeAction();
   };
 
   const logout = () => {
@@ -117,6 +122,7 @@ const Chat = () => {
                         id="inlineFormInput"
                         placeholder="Type here...."
                         ref={msgRef}
+                        required
                       />
                     </div>
                     <div className="col-md-2">
