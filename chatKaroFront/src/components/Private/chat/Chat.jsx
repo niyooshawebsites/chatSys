@@ -64,7 +64,7 @@ const Chat = () => {
             {/* show online members */}
 
             <div className="col-md-3 p-3 display-online-members">
-              <h3 className="text-light text-center">{`Hi, There`}</h3>
+              <h3 className="text-light text-center">{`Hi, ${loggedinUsername}`}</h3>
 
               <button
                 className="btn btn-outline-danger mb-3"
@@ -98,8 +98,9 @@ const Chat = () => {
                     key={index}
                   >
                     <div className="details">
-                      <span className="lead font-bold">{loggedinUsername}</span>
-                      : <span>{msg.time}</span>
+                      {console.log(msg)}
+                      <span className="lead font-bold">{msg.user}</span>:{" "}
+                      <span>{msg.time}</span>
                     </div>
                     <div className="message">{msg.msg}</div>
                   </div>

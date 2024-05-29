@@ -6,6 +6,7 @@ const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
 const loginRoute = require("./routes/loginRoute");
 const msgDetails = require("./utils/msgDetails");
+const { joinLoggedinUser, getCurrentUser } = require("./utils/users");
 
 // dotenv configuration......
 const dotenv = require("dotenv");
@@ -55,7 +56,16 @@ io.on("connection", (socket) => {
 
   // receing the message from the client
   socket.on("clientMsg", (clientMsg) => {
-    io.emit("msgFromServer", msgDetails("User", clientMsg));
+    io.emit("msgFromServer", msgDetails(getCurrentUser(socket.id), clientMsg));
+  });
+
+  // receiving the username from the client
+  socket.on("loggedinUser", (clientMsg) => {
+    // inserting the user in the logged in user array
+    joinLoggedinUser(socket.id, clientMsg);
+
+    // emiting back the current user
+    io.emit("msgFromServer", getCurrentUser(socket.id));
   });
 
   // disconnection

@@ -4,8 +4,12 @@ import axios from "axios";
 import { useRef } from "react";
 import { loggedinUserSliceActions } from "../../store/slices/LoggedinUserSlice";
 import { useDispatch } from "react-redux";
+import { socket } from "../../socket";
 
 const Login = () => {
+  // connect to socket
+  socket.connect();
+
   const navigate = useNavigate();
   const usernameRef = useRef();
   const userPasswordRef = useRef();
@@ -16,9 +20,11 @@ const Login = () => {
 
     dispatch(
       loggedinUserSliceActions.usersLoggedin({
-        loggedinUsername: usernameRef.current.value,
+        loggedinUsername: usernameRef.current.value.trim(),
       })
     );
+
+    socket.emit("loggedinUser", usernameRef.current.value.trim());
 
     try {
       await axios
