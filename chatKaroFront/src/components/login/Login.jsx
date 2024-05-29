@@ -2,14 +2,23 @@ import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRef } from "react";
+import { loggedinUserSliceActions } from "../../store/slices/LoggedinUserSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
   const usernameRef = useRef();
   const userPasswordRef = useRef();
+  const dispatch = useDispatch();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    dispatch(
+      loggedinUserSliceActions.usersLoggedin({
+        loggedinUsername: usernameRef.current.value,
+      })
+    );
 
     try {
       await axios

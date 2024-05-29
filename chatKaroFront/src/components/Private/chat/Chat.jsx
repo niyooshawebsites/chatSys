@@ -2,6 +2,7 @@ import "./chat.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { socket } from "../../../socket";
+import { useSelector } from "react-redux";
 
 const Chat = () => {
   // connect the socket
@@ -10,6 +11,9 @@ const Chat = () => {
   const navigate = useNavigate();
   const msgRef = useRef();
   const [messages, setMessages] = useState(() => []);
+  const { loggedinUsername } = useSelector(
+    (state) => state.loggedin_user_slice
+  );
 
   const msgSendHandle = async (e) => {
     e.preventDefault();
@@ -94,8 +98,8 @@ const Chat = () => {
                     key={index}
                   >
                     <div className="details">
-                      <span className="lead font-bold">Chat Karo</span>:{" "}
-                      <span>{msg.time}</span>
+                      <span className="lead font-bold">{loggedinUsername}</span>
+                      : <span>{msg.time}</span>
                     </div>
                     <div className="message">{msg.msg}</div>
                   </div>
