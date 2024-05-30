@@ -6,7 +6,11 @@ const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
 const loginRoute = require("./routes/loginRoute");
 const msgDetails = require("./utils/msgDetails");
-const { joinLoggedinUser, getCurrentUser } = require("./utils/users");
+const {
+  joinLoggedinUser,
+  getCurrentUser,
+  allLoggedinUsers,
+} = require("./utils/users");
 
 // dotenv configuration......
 const dotenv = require("dotenv");
@@ -48,9 +52,10 @@ io.on("connection", (socket) => {
   // when a new user connects
   socket.on("loggedinUser", (loggedinUsername) => {
     // sending a welcome message to the client
+
     socket.emit(
       "msgFromServer",
-      msgDetails("Chat Karo", "Welcome to Chat Karo")
+      msgDetails("Chat Karo", "Welcome to Chat Karo", allLoggedinUsers)
     );
 
     socket.broadcast.emit(

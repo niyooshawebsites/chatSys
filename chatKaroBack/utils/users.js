@@ -15,4 +15,4 @@ const getCurrentUser = (id) => {
   return currentUser;
 };
 
-module.exports = { joinLoggedinUser, getCurrentUser };
+module.exports = { joinLoggedinUser, getCurrentUser, allLoggedinUsers };

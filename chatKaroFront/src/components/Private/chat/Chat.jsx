@@ -89,15 +89,17 @@ const Chat = () => {
               >
                 Online chatters
               </h4>
+
               <ol className="list-group list-group-numbered online border">
-                <li className="list-group-item">Brad</li>
-                <li className="list-group-item">James</li>
-                <li className="list-group-item">Kiper</li>
-                <li className="list-group-item">Jeff</li>
-                <li className="list-group-item">Brad</li>
-                <li className="list-group-item">James</li>
-                <li className="list-group-item">Kiper</li>
-                <li className="list-group-item">Jeff</li>
+                {messages.map((msg) => {
+                  msg.onlineUsers.map((user, index) => {
+                    return (
+                      <li className="list-group-item" key={index}>
+                        {user}
+                      </li>
+                    );
+                  });
+                })}
               </ol>
             </div>
 
