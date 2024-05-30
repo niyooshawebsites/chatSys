@@ -46,7 +46,7 @@ const signupController = async (req, res) => {
       }
     }
   } catch (err) {
-    res.status(500).send({ message: "Server error", error });
+    res.status(500).send({ message: "Server error", err });
   }
 };
 

@@ -38,6 +38,7 @@ const loginController = async (req, res) => {
         return res.status(200).send({
           success: true,
           message: "Login successful",
+          username,
           token,
         });
       }

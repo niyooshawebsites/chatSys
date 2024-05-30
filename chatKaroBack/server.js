@@ -45,32 +45,33 @@ const io = socketio(server, {
 
 // client connection - start
 io.on("connection", (socket) => {
-  // when a different user connects
-  socket.broadcast.emit(
-    "msgFromServer",
-    msgDetails("Chat Karo", "A new user connected")
-  );
+  // when a new user connects
+  socket.on("loggedinUser", (loggedinUsername) => {
+    // sending a welcome message to the client
+    socket.emit(
+      "msgFromServer",
+      msgDetails("Chat Karo", "Welcome to Chat Karo")
+    );
 
-  // sending a welcome message to the client
-  socket.emit("msgFromServer", msgDetails("Chat Karo", "Welcome to Chat Karo"));
+    socket.broadcast.emit(
+      "msgFromServer",
+      msgDetails("Chat Karo", `${loggedinUsername} has joined the chat`)
+    );
+
+    // disconnection
+    socket.on("disconnect", () => {
+      io.emit(
+        "msgFromServer",
+        msgDetails("Chat Karo", `${loggedinUsername} has left the chat`)
+      );
+    });
+  });
 
   // receing the message from the client
   socket.on("clientMsg", (clientMsg) => {
-    io.emit("msgFromServer", msgDetails(getCurrentUser(socket.id), clientMsg));
-  });
-
-  // receiving the username from the client
-  socket.on("loggedinUser", (clientMsg) => {
     // inserting the user in the logged in user array
-    joinLoggedinUser(socket.id, clientMsg);
-
-    // emiting back the current user
-    io.emit("msgFromServer", getCurrentUser(socket.id));
-  });
-
-  // disconnection
-  socket.on("disconnect", () => {
-    io.emit("msgFromServer", msgDetails("User", "Has left the chat"));
+    joinLoggedinUser(socket.id, clientMsg.username, clientMsg.text);
+    io.emit("msgFromServer", msgDetails(clientMsg.username, clientMsg.text));
   });
 });
 

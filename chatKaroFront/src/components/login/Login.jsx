@@ -25,6 +25,7 @@ const Login = () => {
       })
     );
 
+    // sending the username to the server
     socket.emit("loggedinUser", usernameRef.current.value.trim());
 
     try {
@@ -34,9 +35,11 @@ const Login = () => {
           userPassword: userPasswordRef.current.value,
         })
         .then((data) => {
+          console.log(data);
+          // saving the token
           sessionStorage.setItem("authToken", data.data.token);
-          const notification = toast(data.data.message);
-          notification();
+          // save the username in the sessionStorage
+          sessionStorage.setItem("chatKaro_username", data.data.username);
         })
         .catch((err) => console.log(err));
 

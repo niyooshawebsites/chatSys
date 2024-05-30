@@ -19,8 +19,14 @@ const Chat = () => {
   const msgSendHandle = async (e) => {
     e.preventDefault();
 
+    const clientMsg = {
+      username: sessionStorage.getItem("chatKaro_username"),
+      text: msgRef.current.value.trim(),
+    };
+
     const takeAction = () => {
-      socket.emit("clientMsg", msgRef.current.value.trim());
+      // sending the msg to the server
+      socket.emit("clientMsg", clientMsg);
       // emptying the input filed
       msgRef.current.value = "";
     };
@@ -32,6 +38,8 @@ const Chat = () => {
 
   const logout = () => {
     sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("chatKaro_username");
+    socket.disconnect();
     navigate("/");
   };
 
@@ -71,7 +79,9 @@ const Chat = () => {
             {/* show online members */}
             <div className="col-md-3 p-3 display-online-members">
               {/* Show the name of the current logged in user */}
-              <h3 className="text-light text-center">{`Hi, ${loggedinUsername}`}</h3>
+              <h3 className="text-light text-center">{`Hi, ${sessionStorage.getItem(
+                "chatKaro_username"
+              )}`}</h3>
 
               <h4
                 className="text-light text-center rounded py-2"
