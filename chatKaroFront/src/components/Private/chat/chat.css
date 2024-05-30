@@ -25,6 +25,7 @@
 
 .actual-mgs {
   height: 60vh;
+  padding-right: 10px;
   overflow-y: scroll;
 }
 

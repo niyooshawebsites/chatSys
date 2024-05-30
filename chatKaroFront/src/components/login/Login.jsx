@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { loggedinUserSliceActions } from "../../store/slices/LoggedinUserSlice";
 import { useDispatch } from "react-redux";
 import { socket } from "../../socket";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   // connect to socket
@@ -34,6 +35,8 @@ const Login = () => {
         })
         .then((data) => {
           sessionStorage.setItem("authToken", data.data.token);
+          const notification = toast(data.data.message);
+          notification();
         })
         .catch((err) => console.log(err));
 
@@ -51,6 +54,7 @@ const Login = () => {
 
   return (
     <div className="form-container">
+      <ToastContainer />
       <h1 className="text-light display-4 mb-3">Chat Karo!</h1>
       <form action="" className="login-form" onSubmit={handleFormSubmit}>
         <div className="form-group mb-3">

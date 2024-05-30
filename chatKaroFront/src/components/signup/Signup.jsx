@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useRef } from "react";
 import { userSliceActions } from "../../store/slices/UserSlice";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -25,11 +26,13 @@ const Signup = () => {
     );
 
     try {
-      await axios.post("http://localhost:5500/api/v1/signup", {
-        username: usernameRef.current.value,
-        userEmail: userEmailRef.current.value,
-        userPassword: userPaswordRef.current.value,
-      });
+      await axios
+        .post("http://localhost:5500/api/v1/signup", {
+          username: usernameRef.current.value,
+          userEmail: userEmailRef.current.value,
+          userPassword: userPaswordRef.current.value,
+        })
+        .then((data) => console.log(data));
     } catch (err) {
       console.log(err);
     }
@@ -38,7 +41,7 @@ const Signup = () => {
     userEmailRef.current.value = "";
     userPaswordRef.current.value = "";
 
-    navigate("/");
+    // navigate("/");
   };
 
   return (
@@ -84,6 +87,7 @@ const Signup = () => {
           Login
         </Link>
       </div>
+      <ToastContainer />
     </div>
   );
 };

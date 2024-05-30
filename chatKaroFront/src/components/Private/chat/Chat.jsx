@@ -25,7 +25,7 @@ const Chat = () => {
       msgRef.current.value = "";
     };
 
-    msgRef.current.value.trim()
+    !msgRef.current.value.trim()
       ? alert("Please type something....")
       : takeAction();
   };

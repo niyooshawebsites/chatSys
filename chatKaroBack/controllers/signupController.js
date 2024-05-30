@@ -8,7 +8,7 @@ const signupController = async (req, res) => {
 
     //   if the details are not filled
     if (!username || !userEmail || !userPassword) {
-      return res.status(400).json({
+      return res.status(400).send({
         success: false,
         msg: "Please fill out all the details",
       });
@@ -20,7 +20,7 @@ const signupController = async (req, res) => {
       const existingUserByUsername = await userModel.findOne({ username });
 
       if (existingUserByEmail || existingUserByUsername) {
-        return res.status(400).json({
+        return res.status(400).send({
           success: false,
           msg: "User already exists. Please login in",
         });
@@ -39,14 +39,14 @@ const signupController = async (req, res) => {
 
         await newUser.save();
 
-        return res.status(200).json({
+        return res.status(200).send({
           success: true,
           msg: "Signup successful",
         });
       }
     }
   } catch (err) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).send({ message: "Server error", error });
   }
 };
 

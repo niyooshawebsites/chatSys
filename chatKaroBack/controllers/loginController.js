@@ -8,7 +8,7 @@ const loginController = async (req, res) => {
 
   //   if the details are not filled
   if (!username || !userPassword) {
-    return res.status(400).json({
+    return res.status(400).send({
       success: false,
       message: "Please fill all the details",
     });
@@ -16,7 +16,7 @@ const loginController = async (req, res) => {
     const existingUser = await userModel.findOne({ username });
 
     if (!existingUser) {
-      return res.status(404).json({
+      return res.status(404).send({
         success: false,
         message: "Username or Password is incorrect",
       });
@@ -27,7 +27,7 @@ const loginController = async (req, res) => {
       );
 
       if (!unhashedPassword) {
-        return res.status(404).json({
+        return res.status(404).send({
           success: false,
           message: "Username or Password is incorrect",
         });
@@ -35,7 +35,7 @@ const loginController = async (req, res) => {
         const token = jwt.sign({ existingUser }, process.env.JWT_SECRET, {
           expiresIn: "1h",
         });
-        return res.status(200).json({
+        return res.status(200).send({
           success: true,
           message: "Login successful",
           token,
