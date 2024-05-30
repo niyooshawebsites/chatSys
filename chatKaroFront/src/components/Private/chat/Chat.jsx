@@ -92,13 +92,14 @@ const Chat = () => {
 
               <ol className="list-group list-group-numbered online border">
                 {messages.map((msg) => {
-                  msg.onlineUsers.map((user, index) => {
-                    return (
-                      <li className="list-group-item" key={index}>
-                        {user}
-                      </li>
-                    );
-                  });
+                  // msg.onlineUsers.map((user, index) => {
+                  //   return (
+                  //     <li className="list-group-item" key={index}>
+                  //       {user}
+                  //     </li>
+                  //   );
+                  // });
+                  console.log(msg);
                 })}
               </ol>
             </div>

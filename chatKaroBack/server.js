@@ -47,6 +47,8 @@ const io = socketio(server, {
   },
 });
 
+console.log(allLoggedinUsers);
+
 // client connection - start
 io.on("connection", (socket) => {
   // when a new user connects
@@ -60,7 +62,10 @@ io.on("connection", (socket) => {
 
     socket.broadcast.emit(
       "msgFromServer",
-      msgDetails("Chat Karo", `${loggedinUsername} has joined the chat`)
+      msgDetails("Chat Karo", `${loggedinUsername} has joined the chat`, () => {
+        joinLoggedinUser(loggedinUsername);
+        return allLoggedinUsers;
+      })
     );
 
     // disconnection
@@ -76,7 +81,13 @@ io.on("connection", (socket) => {
   socket.on("clientMsg", (clientMsg) => {
     // inserting the user in the logged in user array
     joinLoggedinUser(socket.id, clientMsg.username, clientMsg.text);
-    io.emit("msgFromServer", msgDetails(clientMsg.username, clientMsg.text));
+    io.emit(
+      "msgFromServer",
+      msgDetails(clientMsg.username, clientMsg.text, () => {
+        joinLoggedinUser(loggedinUsername);
+        return allLoggedinUsers;
+      })
+    );
   });
 });
 
