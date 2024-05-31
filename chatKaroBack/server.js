@@ -6,11 +6,7 @@ const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
 const loginRoute = require("./routes/loginRoute");
 const msgDetails = require("./utils/msgDetails");
-const {
-  joinLoggedinUser,
-  getCurrentUser,
-  allLoggedinUsers,
-} = require("./utils/users");
+const { activeUsers, pushActiveUsers } = require("./utils/users");
 
 // dotenv configuration......
 const dotenv = require("dotenv");
@@ -47,25 +43,24 @@ const io = socketio(server, {
   },
 });
 
-console.log(allLoggedinUsers);
-
 // client connection - start
 io.on("connection", (socket) => {
   // when a new user connects
   socket.on("loggedinUser", (loggedinUsername) => {
-    // sending a welcome message to the client
+    // push the current loggedinUser in activeUser array
+    pushActiveUsers(socket.id, loggedinUsername);
 
+    console.log(activeUsers);
+
+    // sending a welcome message to the client
     socket.emit(
       "msgFromServer",
-      msgDetails("Chat Karo", "Welcome to Chat Karo", allLoggedinUsers)
+      msgDetails("Chat Karo", "Welcome to Chat Karo", activeUsers)
     );
 
     socket.broadcast.emit(
       "msgFromServer",
-      msgDetails("Chat Karo", `${loggedinUsername} has joined the chat`, () => {
-        joinLoggedinUser(loggedinUsername);
-        return allLoggedinUsers;
-      })
+      msgDetails("Chat Karo", `${loggedinUsername} has joined the chat`)
     );
 
     // disconnection
@@ -79,14 +74,9 @@ io.on("connection", (socket) => {
 
   // receing the message from the client
   socket.on("clientMsg", (clientMsg) => {
-    // inserting the user in the logged in user array
-    joinLoggedinUser(socket.id, clientMsg.username, clientMsg.text);
     io.emit(
       "msgFromServer",
-      msgDetails(clientMsg.username, clientMsg.text, () => {
-        joinLoggedinUser(loggedinUsername);
-        return allLoggedinUsers;
-      })
+      msgDetails(clientMsg.username, clientMsg.text, activeUsers)
     );
   });
 });

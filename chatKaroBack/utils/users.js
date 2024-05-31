@@ -1,18 +1,16 @@
-const allLoggedinUsers = [];
+const activeUsers = [];
 
-const joinLoggedinUser = (id, username, text) => {
-  const user = {
-    id,
-    username,
-    text,
-  };
-  allLoggedinUsers.push(user);
-  return user;
+const pushActiveUsers = (id, username) => {
+  const userExists = activeUsers.find((user) => user.id === id);
+
+  if (!userExists) {
+    const activeUser = {
+      id,
+      username,
+    };
+    activeUsers.push(activeUser);
+  }
+  return activeUsers;
 };
 
-const getCurrentUser = (id) => {
-  const currentUser = allLoggedinUsers.find((user) => user.id === id);
-  return currentUser;
-};
-
-module.exports = { joinLoggedinUser, getCurrentUser, allLoggedinUsers };
+module.exports = { activeUsers, pushActiveUsers };

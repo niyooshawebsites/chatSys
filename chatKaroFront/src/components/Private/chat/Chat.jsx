@@ -13,6 +13,7 @@ const Chat = () => {
   const msgRef = useRef();
   const msgContainer = useRef(null);
   const [messages, setMessages] = useState(() => []);
+
   const { loggedinUsername } = useSelector(
     (state) => state.loggedin_user_slice
   );
@@ -32,6 +33,7 @@ const Chat = () => {
     const takeAction = () => {
       // sending the msg to the server
       socket.emit("clientMsg", clientMsg);
+
       // emptying the input filed
       msgRef.current.value = "";
     };
@@ -57,8 +59,7 @@ const Chat = () => {
       setMessages((prevMessages) => [...prevMessages, msg]);
     });
 
-    console.log(messages);
-
+    // staying at the last message all the time
     scrollToBottom();
 
     // cleanup event listener
@@ -74,7 +75,7 @@ const Chat = () => {
           {/* App name */}
 
           <div className="px-5 d-flex justify-content-between align-items-center inner-header border app-name rounded mb-4">
-            <h1 className="display-6 text-center text-light">{`Chat Karo`}</h1>
+            <h1 className="display-6 text-center text-light">{`Gup Shup`}</h1>
 
             <button className="btn btn-danger" onClick={logout}>
               Logout
@@ -94,19 +95,17 @@ const Chat = () => {
                 className="text-light text-center rounded py-2"
                 style={{ backgroundColor: "limegreen" }}
               >
-                Online chatters
+                Guppories
               </h4>
-
-              <ol className="list-group list-group-numbered online border">
+              <ol className="list-group">
                 {messages.map((msg) => {
-                  // msg.onlineUsers.map((user, index) => {
-                  //   return (
-                  //     <li className="list-group-item" key={index}>
-                  //       {user}
-                  //     </li>
-                  //   );
-                  // });
-                  console.log(msg);
+                  return msg.activeUsers.map((user, index) => {
+                    return (
+                      <li key={index} className="list-group-item">
+                        {user.username}
+                      </li>
+                    );
+                  });
                 })}
               </ol>
             </div>
