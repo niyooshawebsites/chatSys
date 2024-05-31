@@ -55,29 +55,45 @@ io.on("connection", (socket) => {
     // sending a welcome message to the client
     socket.emit(
       "msgFromServer",
-      msgDetails("Chat Karo", "Welcome to Chat Karo", activeUsers)
+      msgDetails(
+        "Chat Karo",
+        "Welcome to Chat Karo",
+        pushActiveUsers(socket.id, loggedinUsername)
+      )
     );
 
     socket.broadcast.emit(
       "msgFromServer",
-      msgDetails("Chat Karo", `${loggedinUsername} has joined the chat`)
+      msgDetails(
+        "Chat Karo",
+        `${loggedinUsername} has joined the chat`,
+        pushActiveUsers(socket.id, loggedinUsername)
+      )
     );
+
+    // receing the message from the client
+    socket.on("clientMsg", (clientMsg) => {
+      io.emit(
+        "msgFromServer",
+        msgDetails(
+          clientMsg.username,
+          clientMsg.text,
+          pushActiveUsers(socket.id, loggedinUsername)
+        )
+      );
+    });
 
     // disconnection
     socket.on("disconnect", () => {
       io.emit(
         "msgFromServer",
-        msgDetails("Chat Karo", `${loggedinUsername} has left the chat`)
+        msgDetails(
+          "Chat Karo",
+          `${loggedinUsername} has left the chat`,
+          pushActiveUsers(socket.id, loggedinUsername)
+        )
       );
     });
-  });
-
-  // receing the message from the client
-  socket.on("clientMsg", (clientMsg) => {
-    io.emit(
-      "msgFromServer",
-      msgDetails(clientMsg.username, clientMsg.text, activeUsers)
-    );
   });
 });
 
