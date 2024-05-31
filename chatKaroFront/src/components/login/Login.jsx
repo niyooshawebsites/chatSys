@@ -5,7 +5,6 @@ import { useRef } from "react";
 import { loggedinUserSliceActions } from "../../store/slices/LoggedinUserSlice";
 import { useDispatch } from "react-redux";
 import { socket } from "../../socket";
-import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   // connect to socket
