@@ -4,8 +4,8 @@ const msgDetails = (user, msg, onlineUsers) => {
   return {
     user,
     msg,
-    time: moment().format("h:mm a"),
     onlineUsers,
+    time: moment().format("h:mm a"),
   };
 };
 

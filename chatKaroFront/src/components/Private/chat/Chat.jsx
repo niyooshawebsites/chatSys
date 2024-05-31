@@ -11,10 +11,15 @@ const Chat = () => {
 
   const navigate = useNavigate();
   const msgRef = useRef();
+  const msgContainer = useRef(null);
   const [messages, setMessages] = useState(() => []);
   const { loggedinUsername } = useSelector(
     (state) => state.loggedin_user_slice
   );
+
+  const scrollToBottom = () => {
+    msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
+  };
 
   const msgSendHandle = async (e) => {
     e.preventDefault();
@@ -53,6 +58,8 @@ const Chat = () => {
     });
 
     console.log(messages);
+
+    scrollToBottom();
 
     // cleanup event listener
     return () => {
@@ -107,7 +114,7 @@ const Chat = () => {
             {/* Messages section */}
 
             <div className="col-md-9 display-msg-app d-flex flex-column justify-content-between">
-              <div className="actual-mgs">
+              <div className="actual-mgs" ref={msgContainer}>
                 {messages.map((msg, index) => {
                   return (
                     <div
