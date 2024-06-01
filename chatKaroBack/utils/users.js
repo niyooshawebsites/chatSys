@@ -1,7 +1,7 @@
 const activeUsers = [];
 
 const pushActiveUsers = (id, username) => {
-  const userExists = activeUsers.find((user) => user.id === id);
+  const userExists = activeUsers.find((user) => user.username === username);
 
   if (!userExists) {
     const activeUser = {
@@ -13,4 +13,12 @@ const pushActiveUsers = (id, username) => {
   return activeUsers;
 };
 
-module.exports = { activeUsers, pushActiveUsers };
+const removeUsers = (username) => {
+  const index = activeUsers.findIndex((user) => user.username == username);
+  if (index !== -1) {
+    activeUsers.splice(index, 1);
+    return activeUsers;
+  }
+};
+
+module.exports = { activeUsers, pushActiveUsers, removeUsers };

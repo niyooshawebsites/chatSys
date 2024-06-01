@@ -34,7 +34,6 @@ const Login = () => {
           userPassword: userPasswordRef.current.value,
         })
         .then((data) => {
-          console.log(data);
           // saving the token
           sessionStorage.setItem("authToken", data.data.token);
           // save the username in the sessionStorage
@@ -56,7 +55,6 @@ const Login = () => {
 
   return (
     <div className="form-container">
-      <ToastContainer />
       <h1 className="text-light display-4 mb-3">Chat Karo!</h1>
       <form action="" className="login-form" onSubmit={handleFormSubmit}>
         <div className="form-group mb-3">

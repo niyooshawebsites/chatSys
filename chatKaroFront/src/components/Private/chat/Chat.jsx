@@ -2,7 +2,6 @@ import "./chat.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { socket } from "../../../socket";
-import { useSelector } from "react-redux";
 import { RiSendPlane2Fill } from "react-icons/ri";
 
 const Chat = () => {
@@ -13,10 +12,7 @@ const Chat = () => {
   const msgRef = useRef();
   const msgContainer = useRef(null);
   const [messages, setMessages] = useState(() => []);
-
-  const { loggedinUsername } = useSelector(
-    (state) => state.loggedin_user_slice
-  );
+  const [onlineUsers, setOnlineUsers] = useState(() => []);
 
   const scrollToBottom = () => {
     msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
@@ -57,6 +53,7 @@ const Chat = () => {
     socket.on("msgFromServer", (msg) => {
       // add the received/broadcasted message to the messages state
       setMessages((prevMessages) => [...prevMessages, msg]);
+      setOnlineUsers(() => msg.activeUser);
     });
 
     // staying at the last message all the time
@@ -66,7 +63,7 @@ const Chat = () => {
     return () => {
       socket.off("msgFromServer");
     };
-  }, [messages]);
+  }, [messages, onlineUsers]);
 
   return (
     <>
@@ -98,14 +95,12 @@ const Chat = () => {
                 Guppories
               </h4>
               <ol className="list-group">
-                {messages.map((msg) => {
-                  return msg.activeUsers.map((user, index) => {
-                    return (
-                      <li key={index} className="list-group-item">
-                        {user.username}
-                      </li>
-                    );
-                  });
+                {onlineUsers.map((user, i) => {
+                  return (
+                    <li key={i} className="list-group-item">
+                      {user.username}
+                    </li>
+                  );
                 })}
               </ol>
             </div>
@@ -121,7 +116,6 @@ const Chat = () => {
                       key={index}
                     >
                       <div className="details">
-                        {console.log(msg)}
                         <span className="lead font-bold">{msg.user}</span>:{" "}
                         <span>{msg.time}</span>
                       </div>

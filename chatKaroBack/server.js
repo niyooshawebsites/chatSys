@@ -6,7 +6,7 @@ const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
 const loginRoute = require("./routes/loginRoute");
 const msgDetails = require("./utils/msgDetails");
-const { activeUsers, pushActiveUsers } = require("./utils/users");
+const { activeUsers, pushActiveUsers, removeUsers } = require("./utils/users");
 
 // dotenv configuration......
 const dotenv = require("dotenv");
@@ -55,11 +55,7 @@ io.on("connection", (socket) => {
     // sending a welcome message to the client
     socket.emit(
       "msgFromServer",
-      msgDetails(
-        "Chat Karo",
-        "Welcome to Chat Karo",
-        pushActiveUsers(socket.id, loggedinUsername)
-      )
+      msgDetails("Chat Karo", "Welcome to Chat Karo", activeUsers)
     );
 
     socket.broadcast.emit(
@@ -67,19 +63,15 @@ io.on("connection", (socket) => {
       msgDetails(
         "Chat Karo",
         `${loggedinUsername} has joined the chat`,
-        pushActiveUsers(socket.id, loggedinUsername)
+        activeUsers
       )
     );
 
-    // receing the message from the client
+    // receive the message from the client
     socket.on("clientMsg", (clientMsg) => {
       io.emit(
         "msgFromServer",
-        msgDetails(
-          clientMsg.username,
-          clientMsg.text,
-          pushActiveUsers(socket.id, loggedinUsername)
-        )
+        msgDetails(clientMsg.username, clientMsg.text, activeUsers)
       );
     });
 
@@ -90,7 +82,7 @@ io.on("connection", (socket) => {
         msgDetails(
           "Chat Karo",
           `${loggedinUsername} has left the chat`,
-          pushActiveUsers(socket.id, loggedinUsername)
+          removeUsers(loggedinUsername)
         )
       );
     });
