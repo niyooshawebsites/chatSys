@@ -13,6 +13,13 @@ const Chat = () => {
   const msgContainer = useRef(null);
   const [messages, setMessages] = useState(() => []);
   const [onlineUsers, setOnlineUsers] = useState(() => []);
+  const [msgColor, setMsgColor] = useState("alert-danger");
+
+  const updateMsgColor = (id) => {
+    if (socket.id === id) {
+      setMsgColor("alert-success");
+    }
+  };
 
   const scrollToBottom = () => {
     msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
@@ -110,13 +117,14 @@ const Chat = () => {
             <div className="col-md-9 display-msg-app d-flex flex-column justify-content-between">
               <div className="actual-mgs" ref={msgContainer}>
                 {messages.map((msg, index) => {
+                  console.log(msg);
                   return (
                     <div
-                      className="alert alert-danger d-flex flex-column justify-self-start"
+                      className={`d-flex flex-column justify-self-start py-n2 alert ${msgColor}`}
                       key={index}
                     >
                       <div className="details">
-                        <span className="lead font-bold">{msg.user}</span>:{" "}
+                        <span className="lead">{msg.user}</span>:{" "}
                         <span>{msg.time}</span>
                       </div>
                       <div className="message">{msg.msg}</div>
