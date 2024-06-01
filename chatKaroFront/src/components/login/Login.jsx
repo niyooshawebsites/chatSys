@@ -55,7 +55,7 @@ const Login = () => {
 
   return (
     <div className="form-container">
-      <h1 className="text-light display-4 mb-3">Chat Karo!</h1>
+      <h1 className="text-light display-4 mb-3">Gup Shup</h1>
       <form action="" className="login-form" onSubmit={handleFormSubmit}>
         <div className="form-group mb-3">
           <input
