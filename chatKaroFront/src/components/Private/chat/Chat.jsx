@@ -92,7 +92,7 @@ const Chat = () => {
                 className="text-light text-center rounded py-2"
                 style={{ backgroundColor: "limegreen" }}
               >
-                Guppories
+                Online
               </h4>
               <ol className="list-group">
                 {onlineUsers.map((user, i) => {
