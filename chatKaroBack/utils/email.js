@@ -1,10 +1,16 @@
-const generateOtp = () => {
-  const OTP = "";
-  for (let i = 0; i <= 3; i++) {
-    const randomValue = Math.round(Math.random() * 9);
-    OTP += randomValue;
-  }
-  return OTP;
+const nodemailer = require("nodemailer");
+
+const transport = nodemailer.createTransport({
+  host: "sandbox.smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: process.env.NODEMAILER_USERNAME,
+    pass: process.env.NODEMAILER_PASSWORD,
+  },
+});
+
+const signUpEmail = (otp) => {
+  transport.sendMail();
 };
 
-module.exports = generateOtp;
+module.exports = signUpEmail;

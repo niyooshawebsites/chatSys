@@ -67,6 +67,8 @@ const signupController = async (req, res) => {
         // saving the new unverfied user in the database.
         await newUnverifiedUser.save();
 
+        // sending signup Email to users
+
         return res.status(200).send({
           success: true,
           msg: "Signup successful",
