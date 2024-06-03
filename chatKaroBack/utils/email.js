@@ -8,7 +8,7 @@ const transport = nodemailer.createTransport({
     pass: process.env.NODEMAILER_PASSWORD,
   },
 });
-
+// send email function
 const signUpEmail = (otp) => {
   transport.sendMail();
 };
