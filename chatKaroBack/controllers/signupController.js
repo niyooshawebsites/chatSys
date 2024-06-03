@@ -15,7 +15,7 @@ const signupController = async (req, res) => {
         msg: "Please fill out all the details",
       });
     } else {
-      // if the details are filled
+      // if the details are filled....
 
       // check if the user already exists........
       const existingUserByEmail = await userModel.findOne({ userEmail });
@@ -40,18 +40,18 @@ const signupController = async (req, res) => {
           userPassword: hashedPassword,
         });
 
-        // generate OTP for verification
+        // generate OTP for verification of the user
         const OTP = generateOtp();
 
         const newUnverifiedUser = new verificationModel({
-          ownwer: newUser._id,
+          owner: newUser._id,
           otp: OTP,
         });
 
-        // saving the new user in the database
+        // saving the new user in database.
         await newUser.save();
 
-        // saving the new unverfied user in the database
+        // saving the new unverfied user in the database.
         await newUnverifiedUser.save();
 
         return res.status(200).send({
