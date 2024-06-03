@@ -1,5 +1,7 @@
 const userModel = require("../models/userModel");
+const verificationModel = require("../models/verificationModel");
 const bcrypt = require("bcrypt");
+const generateOtp = require("../utils/email");
 
 const signupController = async (req, res) => {
   try {
@@ -31,13 +33,26 @@ const signupController = async (req, res) => {
         const salt = 10;
         const hashedPassword = await bcrypt.hash(userPassword, salt);
 
+        // creating a new user
         const newUser = new userModel({
           username,
           userEmail,
           userPassword: hashedPassword,
         });
 
+        // generate OTP for verification
+        const OTP = generateOtp();
+
+        const newUnverifiedUser = new verificationModel({
+          ownwer: newUser._id,
+          otp: OTP,
+        });
+
+        // saving the new user in the database
         await newUser.save();
+
+        // saving the new unverfied user in the database
+        await newUnverifiedUser.save();
 
         return res.status(200).send({
           success: true,
