@@ -1,16 +1,22 @@
 const nodemailer = require("nodemailer");
 
-const transport = nodemailer.createTransport({
-  host: "sandbox.smtp.mailtrap.io",
-  port: 2525,
-  auth: {
-    user: process.env.NODEMAILER_USERNAME,
-    pass: process.env.NODEMAILER_PASSWORD,
-  },
-});
+const transport = () =>
+  nodemailer.createTransport({
+    host: process.env.NODEMAILER_HOST,
+    port: process.env.NODEMAILER_PORT,
+    auth: {
+      user: process.env.NODEMAILER_USERNAME,
+      pass: process.env.NODEMAILER_PASSWORD,
+    },
+  });
 
-const signUpEmail = (otp) => {
-  transport.sendMail();
+const signUpEmail = (userEmail, otp) => {
+  transport().sendMail({
+    from: "emailverification@gupshup.com",
+    to: userEmail,
+    subject: "Verify your email",
+    html: `<h1>${otp}</h1>`,
+  });
 };
 
 module.exports = signUpEmail;

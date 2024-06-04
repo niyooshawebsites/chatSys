@@ -1,6 +1,7 @@
 const userModel = require("../models/userModel");
 const verificationModel = require("../models/verificationModel");
 const bcrypt = require("bcrypt");
+const signUpEmail = require("../utils/email");
 
 const signupController = async (req, res) => {
   try {
@@ -53,6 +54,7 @@ const signupController = async (req, res) => {
         };
 
         generateOtp();
+
         const hashedOTP = await bcrypt.hash(OTP, salt);
 
         // console.log(`Hashed otp: ${hashedOTP}`);
@@ -62,16 +64,19 @@ const signupController = async (req, res) => {
           otp: hashedOTP,
         });
 
-        console.log(newUnverifiedUser);
-
         // saving the new unverfied user in the database.
         await newUnverifiedUser.save();
 
         // sending signup Email to users
+        try {
+          signUpEmail(userEmail, OTP);
+        } catch (err) {
+          console.log(err);
+        }
 
         return res.status(200).send({
           success: true,
-          msg: "Signup successful",
+          msg: "Signup successful. Email verfication pending",
         });
       }
     }

@@ -78,7 +78,7 @@ const Signup = () => {
         <input
           type="submit"
           value="Signup"
-          className="btn btn-primary singup-btn"
+          className="btn btn-success singup-btn"
         />
       </form>
       <div className="account-login d-flex align-items-center justify-content-between mt-3 text-white">
