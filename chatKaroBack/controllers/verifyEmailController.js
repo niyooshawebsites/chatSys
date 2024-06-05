@@ -42,11 +42,9 @@ const verifyEmailController = async (req, res) => {
             });
           } else if (isTokenMatched) {
             try {
-              await userModel.findOneAndUpdate(
-                { _id: owner },
-                { isVerified: true },
-                { new: true }
-              );
+              const user = await userModel.findOne({ _id: owner });
+              user.isVerified = true;
+              user.save();
               await verificationModel.findByIdAndDelete({
                 _id: owner,
               });
