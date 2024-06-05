@@ -7,7 +7,7 @@ const verifyEmailController = async (req, res) => {
   try {
     // getting opt and owner from the body
     const { otp, owner } = req.body;
-    // check if the
+    // check if the otp and owner are present
     if (!otp || !owner) {
       return res.status(400).json({
         success: false,
