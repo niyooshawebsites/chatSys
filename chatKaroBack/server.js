@@ -5,7 +5,7 @@ const cors = require("cors");
 const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
 const loginRoute = require("./routes/loginRoute");
-const verifyEmailRoute = require("./routes/verifyEmail");
+const verifyEmailRoute = require("./routes/verifyEmailRoute");
 const msgDetails = require("./utils/msgDetails");
 const { activeUsers, pushActiveUsers, removeUsers } = require("./utils/users");
 

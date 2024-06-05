@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const verifyEmailController = async (req, res) => {
   try {
     const { otp, owner } = req.body;
+
     if (!otp || !owner) {
       return res.status(400).json({
         success: false,
@@ -40,15 +41,25 @@ const verifyEmailController = async (req, res) => {
               message: "Invalid OTP",
             });
           } else if (isTokenMatched) {
-            const user = await userModel.findOne({ _id: owner });
-            (user.isVerified = true),
+            try {
+              await userModel.findOneAndUpdate(
+                { _id: owner },
+                { isVerified: true },
+                { new: true }
+              );
               await verificationModel.findByIdAndDelete({
                 _id: owner,
               });
-            return res.status(200).json({
-              success: true,
-              message: "Email verified successfully!",
-            });
+              return res.status(200).json({
+                success: true,
+                message: "Email verified successfully!",
+              });
+            } catch (err) {
+              return res.status(500).send({
+                success: false,
+                message: err,
+              });
+            }
           }
         }
       }
