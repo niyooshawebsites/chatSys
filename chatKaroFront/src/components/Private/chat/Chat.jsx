@@ -21,6 +21,8 @@ const Chat = () => {
     }
   };
 
+  updateMsgColor(socket.id);
+
   const scrollToBottom = () => {
     msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
   };
