@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const verifcationEmailTemplate = (code) => {
+const verifcationEmailTemplate = (code, owner) => {
   return `<!DOCTYPE html>
   <html lang="en">
     <head>
@@ -20,7 +20,7 @@ const verifcationEmailTemplate = (code) => {
         <div>
           <p class="text-center">Your email verification code:</p>
           <h1 class="text-center pb-3">${code}</h1>
-          <a href="http://localhost:5173/verify-email" class="btn btn-success d-block mx-auto">Verify Now</a
+          <a href="http://localhost:5173/verify-email?${owner}" class="btn btn-success d-block mx-auto">Verify Now</a
           >
         </div>
       </div>

@@ -46,7 +46,7 @@ const signupController = async (req, res) => {
         // generate OTP for verification of the user
         let OTP = "";
         const generateOtp = () => {
-          for (let i = 0; i <= 3; i++) {
+          for (let i = 0; i <= 5; i++) {
             const randomValue = Math.round(Math.random() * 9);
             OTP += randomValue;
           }
