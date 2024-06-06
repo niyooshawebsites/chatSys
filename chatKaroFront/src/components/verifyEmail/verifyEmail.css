@@ -1,0 +1,20 @@
+.form-container {
+  width: 100wh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.verify-form {
+  width: 300px;
+  padding: 25px;
+  background-color: limegreen;
+  border-radius: 10px;
+}
+
+.verify-btn {
+  display: block;
+  width: 100%;
+}

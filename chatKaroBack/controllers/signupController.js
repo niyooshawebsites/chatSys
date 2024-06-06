@@ -69,7 +69,7 @@ const signupController = async (req, res) => {
 
         // sending signup Email to users
         try {
-          signUpEmail(userEmail, OTP);
+          signUpEmail(userEmail, OTP, newUser._id);
         } catch (err) {
           console.log(err);
         }

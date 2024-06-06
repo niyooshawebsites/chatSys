@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const verifcationEmailTemplate = (code, owner) => {
+const verifcationEmailTemplate = (otp, owner) => {
   return `<!DOCTYPE html>
   <html lang="en">
     <head>
@@ -19,7 +19,7 @@ const verifcationEmailTemplate = (code, owner) => {
         <h1 class="text-center text-success pb-3">Gup Shup</h1>
         <div>
           <p class="text-center">Your email verification code:</p>
-          <h1 class="text-center pb-3">${code}</h1>
+          <h1 class="text-center pb-3">${otp}</h1>
           <a href="http://localhost:5173/verify-email?${owner}" class="btn btn-success d-block mx-auto">Verify Now</a
           >
         </div>
@@ -43,12 +43,12 @@ const transport = () =>
     },
   });
 
-const signUpEmail = (userEmail, otp) => {
+const signUpEmail = (userEmail, otp, owner) => {
   transport().sendMail({
     from: "emailverification@gupshup.com",
     to: userEmail,
     subject: "Verify your email",
-    html: verifcationEmailTemplate(otp),
+    html: verifcationEmailTemplate(otp, owner),
   });
 };
 

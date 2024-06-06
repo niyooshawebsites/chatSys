@@ -1,6 +1,7 @@
 import "./App.css";
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
+import VerifyEmail from "./components/verifyEmail/VerifyEmail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Chat from "./components/Private/chat/Chat";
 import { Provider } from "react-redux";
@@ -18,6 +19,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/chat" element={<Chat />} />
+              <Route path="/verify-email:id" element={<VerifyEmail />} />
             </Route>
           </Routes>
         </BrowserRouter>
