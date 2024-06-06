@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import "./verifiyEmail.css";
+import "./verifyEmail.css";
 
 const VerifyEmail = () => {
   const otpRef = useRef();
