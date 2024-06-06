@@ -4,9 +4,9 @@ const verificationModel = require("../models/verificationModel");
 const bcrypt = require("bcrypt");
 
 const verifyEmailController = async (req, res) => {
-  try {
-    const { otp, owner } = req.body;
+  const { otp, owner } = req.body;
 
+  try {
     if (!otp || !owner) {
       return res.status(400).json({
         success: false,
@@ -42,17 +42,19 @@ const verifyEmailController = async (req, res) => {
             });
           } else if (isTokenMatched) {
             try {
-              const user = await userModel.findOne({ _id: owner });
-              user.isVerified = true;
-              user.save();
-              await verificationModel.findByIdAndDelete({
-                _id: owner,
-              });
+              await userModel.findByIdAndUpdate(
+                owner,
+                { isVerified: true },
+                { new: true }
+              );
+              await verificationModel.findByIdAndDelete({ owner });
+              console.log("Email verified successfully!");
               return res.status(200).json({
                 success: true,
                 message: "Email verified successfully!",
               });
             } catch (err) {
+              console.log("Nothing working");
               return res.status(500).send({
                 success: false,
                 message: err,
