@@ -40,6 +40,7 @@ const loginController = async (req, res) => {
           message: "Login successful",
           username,
           token,
+          isVerified: existingUser.isVerified,
         });
       }
     }

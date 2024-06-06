@@ -37,6 +37,8 @@ const Login = () => {
         .then((data) => {
           // saving the token
           sessionStorage.setItem("authToken", data.data.token);
+          // save the isvarified value in the sessionStorage
+          sessionStorage.setItem("isVerified", data.data.isVerified);
           // save the username in the sessionStorage
           sessionStorage.setItem("chatKaro_username", data.data.username);
         })

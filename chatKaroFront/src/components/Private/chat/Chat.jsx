@@ -49,6 +49,7 @@ const Chat = () => {
   const logout = () => {
     sessionStorage.removeItem("authToken");
     sessionStorage.removeItem("chatKaro_username");
+    sessionStorage.removeItem("isVerified");
     socket.disconnect();
     navigate("/");
   };
