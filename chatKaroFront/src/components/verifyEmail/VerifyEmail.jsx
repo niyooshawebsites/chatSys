@@ -22,7 +22,7 @@ const VerifyEmail = () => {
         </div>
         <input
           type="submit"
-          value="Verify"
+          value="Verify Account"
           className="btn btn-success verify-btn"
         />
       </form>
