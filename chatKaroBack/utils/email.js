@@ -20,7 +20,7 @@ const verifcationEmailTemplate = (otp, owner) => {
         <div>
           <p class="text-center">Your email verification code:</p>
           <h1 class="text-center pb-3">${otp}</h1>
-          <a href="http://localhost:5173/verify-email?${owner}" class="btn btn-success d-block mx-auto">Verify Now</a
+          <a href="http://localhost:5173/verify-email/${owner}" class="btn btn-success d-block mx-auto">Verify Now</a
           >
         </div>
       </div>
