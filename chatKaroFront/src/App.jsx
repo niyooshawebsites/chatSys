@@ -19,8 +19,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/chat" element={<Chat />} />
-              <Route path="/verify-email/:owner" element={<VerifyEmail />} />
             </Route>
+            <Route path="/verify-email/:owner" element={<VerifyEmail />} />
           </Routes>
         </BrowserRouter>
       </Provider>
