@@ -20,7 +20,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/chat" element={<Chat />} />
             </Route>
-            <Route path="/verify-email/:owner" element={<VerifyEmail />} />
+            <Route path="/verify-email/:ownerID" element={<VerifyEmail />} />
           </Routes>
         </BrowserRouter>
       </Provider>

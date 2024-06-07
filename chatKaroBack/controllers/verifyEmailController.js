@@ -47,7 +47,7 @@ const verifyEmailController = async (req, res) => {
                 { isVerified: true },
                 { new: true }
               );
-              await verificationModel.findByIdAndDelete({ owner });
+              await verificationModel.findOneAndDelete({ owner });
               console.log("Email verified successfully!");
               return res.status(200).json({
                 success: true,

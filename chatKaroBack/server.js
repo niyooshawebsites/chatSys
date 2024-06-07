@@ -5,10 +5,7 @@ const cors = require("cors");
 const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
 const loginRoute = require("./routes/loginRoute");
-const {
-  verifyEmailGetRoute,
-  verifyEmailPostRoute,
-} = require("./routes/verifyEmailRoute");
+const verifyEmailPostRoute = require("./routes/verifyEmailRoute");
 const msgDetails = require("./utils/msgDetails");
 const { activeUsers, pushActiveUsers, removeUsers } = require("./utils/users");
 
@@ -36,9 +33,6 @@ app.use(process.env.BASE_URL, singupRoute);
 
 // login route........
 app.use(process.env.BASE_URL, loginRoute);
-
-// verfiy email POST..........
-app.use(process.env.BASE_URL, verifyEmailGetRoute);
 
 // verfiy email POST..........
 app.use(process.env.BASE_URL, verifyEmailPostRoute);
