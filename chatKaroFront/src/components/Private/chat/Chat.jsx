@@ -43,8 +43,6 @@ const Chat = () => {
       // sending the msg to the server
       socket.emit("clientMsg", clientMsg);
 
-      console.log(clientMsg);
-
       // emptying the input filed
       msgRef.current.value = "";
     };
