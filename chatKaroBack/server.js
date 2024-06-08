@@ -74,10 +74,14 @@ io.on("connection", (socket) => {
 
     // receive the message from the client
     socket.on("clientMsg", (clientMsg) => {
-      console.log(socket.id);
-      console.log(clientMsg.senderId);
-      if (socket.id === clientMsg.senderId) {
+      if (clientMsg.receiverId) {
+        // send a copy to the sender
         io.to(clientMsg.senderId).emit(
+          "msgFromServer",
+          msgDetails(clientMsg.username, clientMsg.text, activeUsers)
+        );
+        // send a copy to the receiver
+        io.to(clientMsg.receiverId).emit(
           "msgFromServer",
           msgDetails(clientMsg.username, clientMsg.text, activeUsers)
         );

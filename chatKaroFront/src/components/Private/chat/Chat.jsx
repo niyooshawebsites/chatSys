@@ -35,7 +35,8 @@ const Chat = () => {
     const clientMsg = {
       username: sessionStorage.getItem("chatKaro_username"),
       text: msgRef.current.value.trim(),
-      senderId: privateMsgRecipientId,
+      receiverId: privateMsgRecipientId,
+      senderId: socket.id,
     };
 
     const takeAction = () => {
@@ -111,16 +112,13 @@ const Chat = () => {
               </h4>
               <ol className="list-group">
                 {onlineUsers.map((user, i) => {
-                  {
-                    console.log(user);
-                  }
                   return (
                     <li
                       key={i}
                       className="list-group-item"
                       onClick={function () {
                         privateMsgRecipientId = user.id;
-                        this.style.backgroundColor = "orange";
+                        console.log(privateMsgRecipientId);
                       }}
                     >
                       {user.username}
