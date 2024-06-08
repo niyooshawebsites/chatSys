@@ -15,11 +15,13 @@ const Chat = () => {
   const [onlineUsers, setOnlineUsers] = useState(() => []);
   const [msgColor, setMsgColor] = useState("alert-danger");
 
-  const updateMsgColor = (id) => {
-    if (socket.id === id) {
-      setMsgColor("alert-success");
-    }
-  };
+  let privateMsgRecipientId;
+
+  // const updateMsgColor = (id) => {
+  //   if (socket.id === id) {
+  //     setMsgColor("alert-success");
+  //   }
+  // };
 
   // updateMsgColor(socket.id);
 
@@ -33,11 +35,14 @@ const Chat = () => {
     const clientMsg = {
       username: sessionStorage.getItem("chatKaro_username"),
       text: msgRef.current.value.trim(),
+      senderId: privateMsgRecipientId,
     };
 
     const takeAction = () => {
       // sending the msg to the server
       socket.emit("clientMsg", clientMsg);
+
+      console.log(clientMsg);
 
       // emptying the input filed
       msgRef.current.value = "";
@@ -106,8 +111,18 @@ const Chat = () => {
               </h4>
               <ol className="list-group">
                 {onlineUsers.map((user, i) => {
+                  {
+                    console.log(user);
+                  }
                   return (
-                    <li key={i} className="list-group-item">
+                    <li
+                      key={i}
+                      className="list-group-item"
+                      onClick={function () {
+                        privateMsgRecipientId = user.id;
+                        this.style.backgroundColor = "orange";
+                      }}
+                    >
                       {user.username}
                     </li>
                   );

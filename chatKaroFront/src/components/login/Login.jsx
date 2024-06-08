@@ -25,8 +25,14 @@ const Login = () => {
     );
 
     // sending the username to the server
-    socket.emit("loggedinUser", usernameRef.current.value.trim());
-    console.log(socket.id);
+    socket.emit(
+      "loggedinUser",
+      /*usernameRef.current.value.trim()*/
+      {
+        id: socket.id,
+        username: usernameRef.current.value.trim(),
+      }
+    );
 
     try {
       await axios

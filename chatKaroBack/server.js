@@ -47,45 +47,55 @@ const io = socketio(server, {
   },
 });
 
-// client connection - start
+// socket.io
 io.on("connection", (socket) => {
-  // when a new user connects
+  // when a user connects....
   socket.on("loggedinUser", (loggedinUsername) => {
     // push the current loggedinUser in activeUser array
-    pushActiveUsers(socket.id, loggedinUsername);
-
-    console.log(activeUsers);
+    pushActiveUsers(loggedinUsername.id, loggedinUsername.username);
 
     // sending a welcome message to the client
-    socket.emit(
-      "msgFromServer",
-      msgDetails("Chat Karo", "Welcome to Chat Karo", activeUsers)
-    );
+    socket
+      .to(loggedinUsername.id)
+      .emit(
+        "msgFromServer",
+        msgDetails("Gup Shup", "Welcome to Chat Karo", activeUsers)
+      );
 
+    // when a new user joins the chat
     socket.broadcast.emit(
       "msgFromServer",
       msgDetails(
-        "Chat Karo",
-        `${loggedinUsername} has joined the chat`,
+        "Gup Shup",
+        `${loggedinUsername.username} has joined the chat`,
         activeUsers
       )
     );
 
     // receive the message from the client
     socket.on("clientMsg", (clientMsg) => {
-      io.emit(
-        "msgFromServer",
-        msgDetails(clientMsg.username, clientMsg.text, activeUsers)
-      );
+      console.log(socket.id);
+      console.log(clientMsg.senderId);
+      if (socket.id === clientMsg.senderId) {
+        io.to(clientMsg.senderId).emit(
+          "msgFromServer",
+          msgDetails(clientMsg.username, clientMsg.text, activeUsers)
+        );
+      } else {
+        io.emit(
+          "msgFromServer",
+          msgDetails(clientMsg.username, clientMsg.text, activeUsers)
+        );
+      }
     });
 
-    // disconnection
+    // when a user disconnects....
     socket.on("disconnect", () => {
       io.emit(
         "msgFromServer",
         msgDetails(
           "Chat Karo",
-          `${loggedinUsername} has left the chat`,
+          `${loggedinUsername.username} has left the chat`,
           removeUsers(loggedinUsername)
         )
       );
