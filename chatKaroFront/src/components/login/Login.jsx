@@ -39,6 +39,7 @@ const Login = () => {
         .post("http://localhost:5500/api/v1/login", {
           username: usernameRef.current.value,
           userPassword: userPasswordRef.current.value,
+          socketId: socket.id,
         })
         .then((data) => {
           // saving the token
