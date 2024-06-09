@@ -32,9 +32,7 @@ const Chat = () => {
 
     // setting up the client msg to be sent to the server with payload
     const clientMsg = {
-      username: sessionStorage.getItem("chatKaro_username"),
       text: msgRef.current.value.trim(),
-      receiverId: privateMsgRecipientId,
       senderId: socket.id,
     };
 
