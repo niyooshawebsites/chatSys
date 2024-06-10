@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { socket } from "../../../socket";
 import { RiSendPlane2Fill } from "react-icons/ri";
+import axios from "axios";
 
 const Chat = () => {
   // connect the socket
@@ -11,17 +12,8 @@ const Chat = () => {
   const navigate = useNavigate();
   const msgRef = useRef();
   const msgContainer = useRef(null);
+  // const [updateOnlineUsers, setUpdateOnlineUsers] = useState(false);
   const [messages, setMessages] = useState(() => []);
-  const [onlineUsers, setOnlineUsers] = useState(() => []);
-  const [msgColor, setMsgColor] = useState("alert-danger");
-
-  // const updateMsgColor = (id) => {
-  //   if (socket.id === id) {
-  //     setMsgColor("alert-success");
-  //   }
-  // };
-
-  // updateMsgColor(socket.id);
 
   // Always stay at the last msg
   const scrollToBottom = () => {
@@ -35,7 +27,7 @@ const Chat = () => {
     // setting up the client msg to be sent to the server with payload
     const clientMsg = {
       text: msgRef.current.value.trim(),
-      clientId: socket.id,
+      senderId: socket.id,
     };
 
     const takeAction = () => {
@@ -66,7 +58,6 @@ const Chat = () => {
     socket.on("msgFromServer", (msg) => {
       // add the received/broadcasted message to the messages state
       setMessages((prevMessages) => [...prevMessages, msg]);
-      setOnlineUsers(() => msg.activeUser);
     });
 
     // staying at the last message all the time
@@ -76,9 +67,7 @@ const Chat = () => {
     return () => {
       socket.off("msgFromServer");
     };
-  }, [messages, onlineUsers]);
-
-  console.log(onlineUsers);
+  }, [messages]);
 
   return (
     <>
@@ -110,13 +99,19 @@ const Chat = () => {
                 Online
               </h4>
               <ol className="list-group">
-                {onlineUsers.map((user, i) => {
-                  return (
-                    <li key={i} className="list-group-item">
-                      {user.username}
-                    </li>
+                {useEffect(() => {
+                  axios("http://localhost:5500/api/v1/all-online-users").then(
+                    (allUsers) => {
+                      allUsers.map((user, i) => {
+                        return (
+                          <li key={i} className="list-group-item">
+                            {user.name}
+                          </li>
+                        );
+                      });
+                    }
                   );
-                })}
+                }, [])}
               </ol>
             </div>
 
@@ -128,7 +123,7 @@ const Chat = () => {
                   console.log(msg);
                   return (
                     <div
-                      className={`d-flex flex-column justify-self-start py-n2 alert ${msgColor}`}
+                      className={`d-flex flex-column justify-self-start py-n2 alert alert-success`}
                       key={index}
                     >
                       <div className="details">
