@@ -23,17 +23,19 @@ const Chat = () => {
 
   // updateMsgColor(socket.id);
 
+  // Always stay at the last msg
   const scrollToBottom = () => {
     msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
   };
 
+  // Handle submit form event
   const msgSendHandle = async (e) => {
     e.preventDefault();
 
     // setting up the client msg to be sent to the server with payload
     const clientMsg = {
       text: msgRef.current.value.trim(),
-      senderId: socket.id,
+      clientId: socket.id,
     };
 
     const takeAction = () => {

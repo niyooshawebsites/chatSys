@@ -5,6 +5,7 @@ const cors = require("cors");
 const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
 const loginRoute = require("./routes/loginRoute");
+const onlineuserDeleteRoute = require("./routes/onlineUserDeleteRoute");
 const verifyEmailPostRoute = require("./routes/verifyEmailRoute");
 const msgDetails = require("./utils/msgDetails");
 const { activeUsers, pushActiveUsers, removeUsers } = require("./utils/users");
@@ -36,6 +37,9 @@ app.use(process.env.BASE_URL, loginRoute);
 
 // verfiy email POST..........
 app.use(process.env.BASE_URL, verifyEmailPostRoute);
+
+// delete an online user.........
+app.use(process.env.BASE_URL, onlineuserDeleteRoute);
 
 // creating server for socket.io
 const server = http.createServer(app);
