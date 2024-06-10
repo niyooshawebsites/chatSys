@@ -1,10 +1,10 @@
-const express = require();
-const router = express.Router();
-const deleteOnlineUserController = require("../controllers/deleteOnlineUserConroller");
+// const express = require();
+// const router = express.Router();
+// const deleteOnlineUserController = require("../controllers/deleteOnlineUserConroller");
 
-const onlineuserDeleteRoute = router.delete(
-  "/delete-onlineUser/id",
-  deleteOnlineUserController
-);
+// const onlineuserDeleteRoute = router.get(
+//   "/delete-onlineUser",
+//   deleteOnlineUserController
+// );
 
-module.exports = onlineuserDeleteRoute;
+// module.exports = onlineuserDeleteRoute;

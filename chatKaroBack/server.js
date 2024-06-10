@@ -6,10 +6,9 @@ const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
 const loginRoute = require("./routes/loginRoute");
 const getOnlineUsersRoute = require("./routes/getOnlineUsersRoute");
-const onlineuserDeleteRoute = require("./routes/onlineUserDeleteRoute");
+// const onlineuserDeleteRoute = require("./routes/onlineUserDeleteRoute");
 const verifyEmailPostRoute = require("./routes/verifyEmailRoute");
 const msgDetails = require("./utils/msgDetails");
-const { activeUsers, pushActiveUsers, removeUsers } = require("./utils/users");
 
 // dotenv configuration......
 const dotenv = require("dotenv");
@@ -43,7 +42,7 @@ app.use(process.env.BASE_URL, verifyEmailPostRoute);
 app.use(process.env.BASE_URL, getOnlineUsersRoute);
 
 // delete an online user.........
-app.use(process.env.BASE_URL, onlineuserDeleteRoute);
+// app.use(process.env.BASE_URL, onlineuserDeleteRoute);
 
 // creating server for socket.io
 const server = http.createServer(app);
@@ -59,9 +58,6 @@ const io = socketio(server, {
 io.on("connection", (socket) => {
   // when a user connects....
   socket.on("loggedinUser", (loggedinUsername) => {
-    // push the current loggedinUser in activeUser array
-    pushActiveUsers(loggedinUsername.id, loggedinUsername.username);
-
     // sending a welcome message to the client
     socket
       .to(loggedinUsername.id)
