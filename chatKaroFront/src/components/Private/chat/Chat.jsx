@@ -1,5 +1,5 @@
 import "./chat.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { socket } from "../../../socket";
 import { RiSendPlane2Fill } from "react-icons/ri";
@@ -13,16 +13,7 @@ const Chat = () => {
   const msgRef = useRef();
   const msgContainer = useRef(null);
   const [messages, setMessages] = useState(() => []);
-  // const [updateOnlineUsers, setUpdateOnlineUsers] = useState(false);
-  // const [msgColor, setMsgColor] = useState("alert-danger");
-
-  // const updateMsgColor = (id) => {
-  //   if (socket.id === id) {
-  //     setMsgColor("alert-success");
-  //   }
-  // };
-
-  // updateMsgColor(socket.id);
+  const [onlineUsers, setOnlineUsers] = useState(() => []);
 
   const scrollToBottom = () => {
     msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
@@ -50,6 +41,32 @@ const Chat = () => {
       : takeAction();
   };
 
+  // fetching online users using useeffect hook
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        axios("http://localhost:5500/api/v1/all-online-users").then((data) => {
+          console.log(data.data.users);
+          setOnlineUsers([...data.data.users]);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+
+    // Listen for 'userJoined' event from the server to update online users
+    socket.on("userJoined", (newUser) => {
+      setOnlineUsers((prevOnlineUsers) => [...prevOnlineUsers, newUser]);
+    });
+
+    // Cleanup socket event listener
+    return () => {
+      socket.off("userJoined");
+    };
+  }, []);
+
   const logout = () => {
     sessionStorage.removeItem("authToken");
     sessionStorage.removeItem("chatKaro_username");
@@ -59,7 +76,6 @@ const Chat = () => {
   };
 
   // handle incoming messages from the server
-
   useEffect(() => {
     // listen for client messages coming from the server
     socket.on("msgFromServer", (msg) => {
@@ -106,18 +122,11 @@ const Chat = () => {
                 Online
               </h4>
               <ol className="list-group">
-                {useEffect(() => {
-                  axios("http://localhost:5500/api/v1/all-online-users").then(
-                    (data) => {
-                      console.log(data.data.users);
-                      data.data.users.map((user) => {
-                        return (
-                          <li className="list-group-item" key={user._id}>
-                            {user.name}
-                          </li>
-                        );
-                      });
-                    }
+                {onlineUsers.map((onlinUser) => {
+                  return (
+                    <li className="list-group-item" key={onlinUser._id}>
+                      {onlinUser.name}
+                    </li>
                   );
                 })}
               </ol>
@@ -131,7 +140,7 @@ const Chat = () => {
                   console.log(msg);
                   return (
                     <div
-                      className={`d-flex flex-column justify-self-start py-n2 alert ${msgColor}`}
+                      className={`d-flex flex-column justify-self-start py-n2 alert alert-success`}
                       key={index}
                     >
                       <div className="details">
