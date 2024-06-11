@@ -109,12 +109,17 @@ const Chat = () => {
                 {useEffect(() => {
                   axios("http://localhost:5500/api/v1/all-online-users").then(
                     (data) => {
-                      return (
-                        <li className="list-group-item">{data.username}</li>
-                      );
+                      console.log(data.data.users);
+                      data.data.users.map((user) => {
+                        return (
+                          <li className="list-group-item" key={user._id}>
+                            {user.name}
+                          </li>
+                        );
+                      });
                     }
                   );
-                }, [])}
+                })}
               </ol>
             </div>
 
