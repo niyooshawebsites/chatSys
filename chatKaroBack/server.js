@@ -61,19 +61,12 @@ io.on("connection", (socket) => {
     // sending a welcome message to the client
     socket
       .to(loggedinUsername.id)
-      .emit(
-        "msgFromServer",
-        msgDetails("Gup Shup", "Welcome to Chat Karo", activeUsers)
-      );
+      .emit("msgFromServer", msgDetails("Gup Shup", "Welcome to Chat Karo"));
 
     // when a new user joins the chat
     socket.broadcast.emit(
       "msgFromServer",
-      msgDetails(
-        "Gup Shup",
-        `${loggedinUsername.username} has joined the chat`,
-        activeUsers
-      )
+      msgDetails("Gup Shup", `${loggedinUsername.username} has joined the chat`)
     );
 
     // receive the message from the client
@@ -82,17 +75,17 @@ io.on("connection", (socket) => {
         // send a copy to the sender
         io.to(clientMsg.senderId).emit(
           "msgFromServer",
-          msgDetails(clientMsg.username, clientMsg.text, activeUsers)
+          msgDetails(clientMsg.username, clientMsg.text)
         );
         // send a copy to the receiver
         io.to(clientMsg.receiverId).emit(
           "msgFromServer",
-          msgDetails(clientMsg.username, clientMsg.text, activeUsers)
+          msgDetails(clientMsg.username, clientMsg.text)
         );
       } else {
         io.emit(
           "msgFromServer",
-          msgDetails(clientMsg.username, clientMsg.text, activeUsers)
+          msgDetails(clientMsg.username, clientMsg.text)
         );
       }
     });
@@ -103,8 +96,7 @@ io.on("connection", (socket) => {
         "msgFromServer",
         msgDetails(
           "Chat Karo",
-          `${loggedinUsername.username} has left the chat`,
-          removeUsers(loggedinUsername)
+          `${loggedinUsername.username} has left the chat`
         )
       );
     });

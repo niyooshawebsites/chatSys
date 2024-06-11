@@ -12,15 +12,22 @@ const Chat = () => {
   const navigate = useNavigate();
   const msgRef = useRef();
   const msgContainer = useRef(null);
-  // const [updateOnlineUsers, setUpdateOnlineUsers] = useState(false);
   const [messages, setMessages] = useState(() => []);
+  // const [updateOnlineUsers, setUpdateOnlineUsers] = useState(false);
+  // const [msgColor, setMsgColor] = useState("alert-danger");
 
-  // Always stay at the last msg
+  // const updateMsgColor = (id) => {
+  //   if (socket.id === id) {
+  //     setMsgColor("alert-success");
+  //   }
+  // };
+
+  // updateMsgColor(socket.id);
+
   const scrollToBottom = () => {
     msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
   };
 
-  // Handle submit form event
   const msgSendHandle = async (e) => {
     e.preventDefault();
 
@@ -101,14 +108,10 @@ const Chat = () => {
               <ol className="list-group">
                 {useEffect(() => {
                   axios("http://localhost:5500/api/v1/all-online-users").then(
-                    (allUsers) => {
-                      allUsers.map((user, i) => {
-                        return (
-                          <li key={i} className="list-group-item">
-                            {user.name}
-                          </li>
-                        );
-                      });
+                    (data) => {
+                      return (
+                        <li className="list-group-item">{data.username}</li>
+                      );
                     }
                   );
                 }, [])}
@@ -123,7 +126,7 @@ const Chat = () => {
                   console.log(msg);
                   return (
                     <div
-                      className={`d-flex flex-column justify-self-start py-n2 alert alert-success`}
+                      className={`d-flex flex-column justify-self-start py-n2 alert ${msgColor}`}
                       key={index}
                     >
                       <div className="details">

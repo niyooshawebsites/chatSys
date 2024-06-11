@@ -4,7 +4,7 @@ const getOnlineUsersController = async (req, res) => {
   try {
     const allUsers = await onlineUsersModel.find({});
     if (!allUsers || allUsers.length <= 1) {
-      res.status(404).json({
+      res.status(201).json({
         success: false,
         message: "No online user",
       });

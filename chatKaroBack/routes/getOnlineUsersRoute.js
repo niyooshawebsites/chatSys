@@ -3,7 +3,7 @@ const router = express.Router();
 const getOnlineUsersController = require("../controllers/getOnlineUsersController");
 
 const getOnlineUsersRoute = router.get(
-  "all-online-users",
+  "/all-online-users",
   getOnlineUsersController
 );
 

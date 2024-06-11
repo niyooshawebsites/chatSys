@@ -1,10 +1,9 @@
 const moment = require("moment");
 
-const msgDetails = (user, msg, activeUser) => {
+const msgDetails = (user, msg) => {
   return {
     user,
     msg,
-    activeUser,
     time: moment().format("h:mm a"),
   };
 };
