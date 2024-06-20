@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { socket } from "../../../socket";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import axios from "axios";
+import OnlineUsers from "../onlineUsers/OnlineUsers";
 
 const Chat = () => {
   // connect the socket
@@ -13,7 +14,6 @@ const Chat = () => {
   const msgRef = useRef();
   const msgContainer = useRef(null);
   const [messages, setMessages] = useState(() => []);
-  const [onlineUsers, setOnlineUsers] = useState(() => []);
 
   const scrollToBottom = () => {
     msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
@@ -40,32 +40,6 @@ const Chat = () => {
       ? alert("Please type something....")
       : takeAction();
   };
-
-  // fetching online users using useeffect hook
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        axios("http://localhost:5500/api/v1/all-online-users").then((data) => {
-          console.log(data.data.users);
-          setOnlineUsers([...data.data.users]);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-
-    // Listen for 'userJoined' event from the server to update online users
-    socket.on("userJoined", (newUser) => {
-      setOnlineUsers((prevOnlineUsers) => [...prevOnlineUsers, newUser]);
-    });
-
-    // Cleanup socket event listener
-    return () => {
-      socket.off("userJoined");
-    };
-  }, []);
 
   const logout = () => {
     sessionStorage.removeItem("authToken");
@@ -109,31 +83,8 @@ const Chat = () => {
           {/* complete message display section */}
           <div className="row border rounded p-3">
             {/* show online members */}
-            <div className="col-md-3 p-3 display-online-members">
-              {/* Show the name of the current logged in user */}
-              <h3 className="text-light text-center">{`Hi, ${sessionStorage.getItem(
-                "chatKaro_username"
-              )}`}</h3>
-
-              <h4
-                className="text-light text-center rounded py-2"
-                style={{ backgroundColor: "limegreen" }}
-              >
-                Online
-              </h4>
-              <ol className="list-group">
-                {onlineUsers.map((onlinUser) => {
-                  return (
-                    <li className="list-group-item" key={onlinUser._id}>
-                      {onlinUser.name}
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-
+            <OnlineUsers name={sessionStorage.getItem("chatKaro_username")} />
             {/* Messages section */}
-
             <div className="col-md-9 display-msg-app d-flex flex-column justify-content-between">
               <div className="actual-mgs" ref={msgContainer}>
                 {messages.map((msg, index) => {
