@@ -33,8 +33,7 @@ const OnlineUsers = ({ name }) => {
   return (
     <div className="col-md-3 p-3 display-online-members">
       {/* Show the name of the current logged in user */}
-      <h3 className="text-light text-center">{`Hi, ${name}`}</h3>
-
+      <h3 className="text-light text-center">{`Howdy, ${name}`}</h3>
       <h4
         className="text-light text-center rounded py-2"
         style={{ backgroundColor: "limegreen" }}
@@ -54,4 +53,4 @@ const OnlineUsers = ({ name }) => {
   );
 };
 
-export default OnlineUsers;
+export default { OnlineUsers };

@@ -71,14 +71,14 @@ io.on("connection", (socket) => {
 
     // receive the message from the client
     socket.on("clientMsg", (clientMsg) => {
-      if (clientMsg.receiverId) {
+      if (clientMsg.pvtMsgRecId) {
         // send a copy to the sender
         io.to(clientMsg.senderId).emit(
           "msgFromServer",
           msgDetails(clientMsg.username, clientMsg.text)
         );
         // send a copy to the receiver
-        io.to(clientMsg.receiverId).emit(
+        io.to(clientMsg.pvtMsgRecId).emit(
           "msgFromServer",
           msgDetails(clientMsg.username, clientMsg.text)
         );

@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { socket } from "../../../socket";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import axios from "axios";
-import OnlineUsers from "../onlineUsers/OnlineUsers";
 
 const Chat = () => {
   // connect the socket
@@ -14,20 +13,48 @@ const Chat = () => {
   const msgRef = useRef();
   const msgContainer = useRef(null);
   const [messages, setMessages] = useState(() => []);
-  const socketId = socket.id;
-  console.log(socketId);
+  const [onlineUsers, setOnlineUsers] = useState(() => []);
+  const [pvtMsgReceiver, setPvtMsgReceiver] = useState({});
 
   const scrollToBottom = () => {
     msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
   };
+
+  // fetching online users using useEffect hook
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        axios("http://localhost:5500/api/v1/all-online-users").then((data) => {
+          console.log(data.data.users);
+          setOnlineUsers([...data.data.users]);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+
+    // Listen for 'userJoined' event from the server to update online users
+    socket.on("userJoined", (newUser) => {
+      setOnlineUsers((prevOnlineUsers) => [...prevOnlineUsers, newUser]);
+    });
+
+    // Cleanup socket event listener
+    return () => {
+      socket.off("userJoined");
+    };
+  }, []);
 
   const msgSendHandle = async (e) => {
     e.preventDefault();
 
     // setting up the client msg to be sent to the server with payload
     const clientMsg = {
+      username: sessionStorage.getItem("chatKaro_username"),
       text: msgRef.current.value.trim(),
       senderId: socket.id,
+      pvtMsgRecId: pvtMsgReceiver == {} ? "" : pvtMsgReceiver.socketId,
     };
 
     const takeAction = () => {
@@ -82,7 +109,9 @@ const Chat = () => {
 
           <div className="px-5 d-flex justify-content-between align-items-center inner-header border app-name rounded mb-4">
             <h1 className="display-6 text-center text-light">{`Gup Shup`}</h1>
-
+            <h1 className="display-6 text-center text-light">
+              {pvtMsgReceiver == {} ? "" : pvtMsgReceiver.name}
+            </h1>
             <button className="btn btn-danger" onClick={logout}>
               Logout
             </button>
@@ -91,7 +120,34 @@ const Chat = () => {
           {/* complete message display section */}
           <div className="row border rounded p-3">
             {/* show online members */}
-            <OnlineUsers name={sessionStorage.getItem("chatKaro_username")} />
+
+            <div className="col-md-3 p-3 display-online-members">
+              {/* Show the name of the current logged in user */}
+              <h3 className="text-light text-center">{`Howdy, ${sessionStorage.getItem(
+                "chatKaro_username"
+              )}`}</h3>
+              <h4
+                className="text-light text-center rounded py-2"
+                style={{ backgroundColor: "limegreen" }}
+              >
+                Online
+              </h4>
+              <ol className="list-group">
+                {onlineUsers.map((onlinUser) => {
+                  return (
+                    <li
+                      className="list-group-item"
+                      key={onlinUser._id}
+                      onClick={() => {
+                        setPvtMsgReceiver(() => onlinUser);
+                      }}
+                    >
+                      {onlinUser.name}
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
             {/* Messages section */}
             <div className="col-md-9 display-msg-app d-flex flex-column justify-content-between">
               <div className="actual-mgs" ref={msgContainer}>
