@@ -14,6 +14,8 @@ const Chat = () => {
   const msgRef = useRef();
   const msgContainer = useRef(null);
   const [messages, setMessages] = useState(() => []);
+  const socketId = socket.id;
+  console.log(socketId);
 
   const scrollToBottom = () => {
     msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
@@ -41,10 +43,16 @@ const Chat = () => {
       : takeAction();
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await axios.delete(
+      `http://localhost:5500/api/v1/del-onlineuser/${sessionStorage.getItem(
+        "chatKaro_username"
+      )}`
+    );
     sessionStorage.removeItem("authToken");
     sessionStorage.removeItem("chatKaro_username");
     sessionStorage.removeItem("isVerified");
+
     socket.disconnect();
     navigate("/");
   };

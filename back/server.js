@@ -6,7 +6,7 @@ const connection = require("./db/connection");
 const singupRoute = require("./routes/signupRoute");
 const loginRoute = require("./routes/loginRoute");
 const getOnlineUsersRoute = require("./routes/getOnlineUsersRoute");
-// const onlineuserDeleteRoute = require("./routes/onlineUserDeleteRoute");
+const onlineuserDeleteRoute = require("./routes/onlineUserDeleteRoute");
 const verifyEmailPostRoute = require("./routes/verifyEmailRoute");
 const msgDetails = require("./utils/msgDetails");
 
@@ -42,7 +42,7 @@ app.use(process.env.BASE_URL, verifyEmailPostRoute);
 app.use(process.env.BASE_URL, getOnlineUsersRoute);
 
 // delete an online user.........
-// app.use(process.env.BASE_URL, onlineuserDeleteRoute);
+app.use(process.env.BASE_URL, onlineuserDeleteRoute);
 
 // creating server for socket.io
 const server = http.createServer(app);

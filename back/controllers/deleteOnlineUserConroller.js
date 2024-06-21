@@ -2,8 +2,8 @@ const onlineUsersModel = require("../models/onlineUsersModel");
 
 const deleteOnlineUserController = async (req, res) => {
   try {
-    const { socketId } = req.body;
-    const result = await onlineUsersModel.findOneAndDelete({ socketId });
+    const name = req.params.name;
+    const result = await onlineUsersModel.findOneAndDelete({ name });
     if (result) {
       res.status(200).json({
         success: true,
