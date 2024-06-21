@@ -75,17 +75,17 @@ io.on("connection", (socket) => {
         // send a copy to the sender
         io.to(clientMsg.senderId).emit(
           "msgFromServer",
-          msgDetails(clientMsg.username, clientMsg.text)
+          msgDetails(clientMsg.username, clientMsg.receiverName, clientMsg.text)
         );
         // send a copy to the receiver
         io.to(clientMsg.pvtMsgRecId).emit(
           "msgFromServer",
-          msgDetails(clientMsg.username, clientMsg.text)
+          msgDetails(clientMsg.username, clientMsg.receiverName, clientMsg.text)
         );
       } else {
         io.emit(
           "msgFromServer",
-          msgDetails(clientMsg.username, clientMsg.text)
+          msgDetails(clientMsg.username, "", clientMsg.text)
         );
       }
     });

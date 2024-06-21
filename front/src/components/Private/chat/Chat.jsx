@@ -55,11 +55,14 @@ const Chat = () => {
       text: msgRef.current.value.trim(),
       senderId: socket.id,
       pvtMsgRecId: pvtMsgReceiver == {} ? "" : pvtMsgReceiver.socketId,
+      receiverName: pvtMsgReceiver == {} ? "" : pvtMsgReceiver.name,
     };
 
     const takeAction = () => {
       // sending the msg to the server
       socket.emit("clientMsg", clientMsg);
+
+      console.log(clientMsg);
 
       // emptying the input filed
       msgRef.current.value = "";
@@ -151,21 +154,23 @@ const Chat = () => {
             {/* Messages section */}
             <div className="col-md-9 display-msg-app d-flex flex-column justify-content-between">
               <div className="actual-mgs" ref={msgContainer}>
-                {messages.map((msg, index) => {
-                  console.log(msg);
-                  return (
-                    <div
-                      className={`d-flex flex-column justify-self-start py-n2 alert alert-success`}
-                      key={index}
-                    >
-                      <div className="details">
-                        <span className="lead">{msg.user}</span>:{" "}
-                        <span>{msg.time}</span>
+                {messages
+                  .filter((msg) => msg.receiver === pvtMsgReceiver.name)
+                  .map((msg, index) => {
+                    console.log(msg);
+                    return (
+                      <div
+                        className={`d-flex flex-column justify-self-start py-n2 alert alert-success`}
+                        key={index}
+                      >
+                        <div className="details">
+                          <span className="lead">{msg.user}</span>:{" "}
+                          <span>{msg.time}</span>
+                        </div>
+                        <div className="message">{msg.msg}</div>
                       </div>
-                      <div className="message">{msg.msg}</div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
               {/* Input message */}
               <div className="row container mx-auto py-4 prompt-container">
