@@ -1,7 +1,9 @@
 const moment = require("moment");
 
-const msgDetails = (user, receiver, msg) => {
+const msgDetails = (senderId, receiverId, user, receiver, msg) => {
   return {
+    senderId,
+    receiverId,
     user,
     receiver,
     msg,

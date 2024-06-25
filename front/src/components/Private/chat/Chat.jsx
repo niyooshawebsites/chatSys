@@ -104,6 +104,8 @@ const Chat = () => {
     };
   }, [messages]);
 
+  console.log(messages);
+
   return (
     <>
       <div className="chat-container">
@@ -136,16 +138,16 @@ const Chat = () => {
                 Online
               </h4>
               <ol className="list-group">
-                {onlineUsers.map((onlinUser) => {
+                {onlineUsers.map((onlineUser) => {
                   return (
                     <li
-                      className="list-group-item"
-                      key={onlinUser._id}
+                      className={`list-group-item`}
+                      key={onlineUser._id}
                       onClick={() => {
-                        setPvtMsgReceiver(() => onlinUser);
+                        setPvtMsgReceiver(() => onlineUser);
                       }}
                     >
-                      {onlinUser.name}
+                      {onlineUser.name}
                     </li>
                   );
                 })}
